@@ -1,0 +1,76 @@
+
+<!-- 
+     Copyright (C) 2011 - 2016  DVCONSULTORES
+
+    Este programa es software libre: usted puede redistribuirlo y/o modificarlo 
+    bajo los tÃ©rminos de la Licencia PÃºblica General GNU publicada 
+    por la FundaciÃ³n para el Software Libre, ya sea la versiÃ³n 3 
+    de la Licencia, o (a su elecciÃ³n) cualquier versiÃ³n posterior.
+
+    Este programa se distribuye con la esperanza de que sea Ãºtil, pero 
+    SIN GARANTÃ�A ALGUNA; ni siquiera la garantÃ­a implÃ­cita 
+    MERCANTIL o de APTITUD PARA UN PROPÃ“SITO DETERMINADO. 
+    Consulte los detalles de la Licencia PÃºblica General GNU para obtener 
+    una informaciÃ³n mÃ¡s detallada. 
+
+    DeberÃ­a haber recibido una copia de la Licencia PÃºblica General GNU 
+    junto a este programa. 
+    En caso contrario, consulte <http://www.gnu.org/licenses/>.
+ -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<div id="sidebar-wrapper">
+	<ul class="sidebar-nav">
+		<!-- Home -->
+		<li  id="current" class="active">
+         <h:outputLink value="dotconvenios.xhtml" onclick="mnuDot()"><i class="fa fa-home fa-2x"></i><span class="mnuLeftBasicos">CARGA ACCIDENTAL - HOME</span></h:outputLink>
+        </li>
+        
+          <!-- Sha -->
+       <li class="dropdown mnuDot" >
+	    <h:outputLink rendered="#{smnubean.opcmnu('S01')}"><a data-toggle="collapse" data-target="#demo1" styleClass="mnuDot" ><i class="fa fa-users fa-2x"></i><span class="mnuLeftBasicos"><h:outputText value="#{msg.sgc001}" /><i class="fa fa-fw fa-caret-down"></i></span></a></h:outputLink>
+	    <ul id="demo1" class="collapse" >
+	    <li>
+	        <h:outputLink styleClass="mnuDot"  rendered="#{smnubean.opcmnu('S02')}" value="dotconvenios"><i class="fa fa-file-text-o fa-2x"></i><span class="mnuLeftBasicos"><h:outputText value="#{msg.Master}" /></span></h:outputLink>
+	        <h:outputLink styleClass="mnuDot"  rendered="#{smnubean.opcmnu('S03')}" value="dottipos"><i class="fa fa-list fa-2x"></i><span class="mnuLeftBasicos"><h:outputText value="#{msg.Dott}" /></span></h:outputLink>  
+  			<h:outputLink styleClass="mnuDot"  rendered="#{smnubean.opcmnu('S04')}" value="dotcombos"><i class="fa fa-cubes fa-2x"></i><span class="mnuLeftBasicos"><h:outputText value="#{msg.Hmeta}" /></span></h:outputLink>     
+  			<h:outputLink styleClass="mnuDot"  rendered="#{smnubean.opcmnu('S05')}" value="dotfrecuencia"><i class="fa fa-clock-o fa-2x"></i><span class="mnuLeftBasicos"><h:outputText value="#{msg.Frecu}" /></span></h:outputLink>  
+  			<h:outputLink styleClass="mnuDot"  rendered="#{smnubean.opcmnu('S06')}" value="dotbusqueda"><i class="fa fa-search fa-2x"></i><span class="mnuLeftBasicos"><h:outputText value="#{msg.Busq}" /></span></h:outputLink>     
+        </li>
+	    </ul>
+	   </li>   
+
+        <li>
+            <h:outputLink styleClass="mnuDot" style="display:none;" rendered="#{smnubean.opcmnu('S07')}" value="dotconveniose"><i class="fa fa-file-text-o fa-2x"></i><span class="mnuLeftBasicos"><h:outputText value="#{msg.Conve}" /></span></h:outputLink>
+        </li>  
+        
+        <li>
+            <h:outputLink styleClass="mnuDot" style="display:none;" rendered="#{smnubean.opcmnu('S08')}" value="dotcombosc"><i class="fa fa-cubes fa-2x"></i><span class="mnuLeftBasicos"><h:outputText value="#{msg.Combo}" /></span></h:outputLink>
+        </li>  
+        
+        <li>
+            <h:outputLink styleClass="mnuDot" style="display:none;" rendered="#{smnubean.opcmnu('S09')}" value="dotartbus"><i class="fa fa-search fa-2x"></i><span class="mnuLeftBasicos"><h:outputText value="#{msg.Artb}" /></span></h:outputLink>
+        </li>  
+        
+        <li>
+            <h:outputLink styleClass="mnuDot" style="display:none;" rendered="#{smnubean.opcmnu('S10')}" value="dotcombosa"><i class="fa fa-newspaper-o fa-2x"></i><span class="mnuLeftBasicos"><h:outputText value="#{msg.Comboa}" /></span></h:outputLink>
+        </li>  
+        
+        <li>
+            <h:outputLink styleClass="mnuDot" style="display:none;" rendered="#{smnubean.opcmnu('S11')}" value="dotcalpro"><i class="fa fa-calculator fa-2x"></i><span class="mnuLeftBasicos"><h:outputText value="#{msg.Calpro}" /></span></h:outputLink>
+        </li> 
+                
+     </ul>
+</div>
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+</html>
