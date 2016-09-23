@@ -56,6 +56,7 @@
         title="#{msg.htmlr}"  styleClass="botonera" accesskey="l">  
        <p:resetInput target="panel" />
        <f:actionListener binding="#{bd.setCi('')}"/> 
+       <f:actionListener binding="#{bd.setCentop('')}"/> 
        <f:actionListener binding="#{bd.setTipoin('')}"/> 
        <f:actionListener binding="#{bd.setTipoac('')}"/> 
        </p:commandButton>                     
@@ -100,9 +101,24 @@
 		      <div class="modal-body">
 		  <div class="list-group">
 		  <div class="panel panel-warning modalInfo" >
-		        <div class="panel-body">    
+		        <div class="panel-body" style="background-color:#ffe0b3;">    
 		        <p:panel id="panelDetalle" >
-		        <h:panelGrid columns="2" columnClasses="col1,colmsg">
+		        <h:panelGrid columns="2" columnClasses="forty-percent top-alignment, sixty-percent top-alignment">
+		        <h:outputText value="#{msg.shainturno}:"/>
+		        <span id="txt_det_8" class="detalleTarea"></span>
+		        <h:outputText value="#{msg.Shauserstbsuc}:"/>
+		        <span id="txt_det_14" class="detalleTarea"></span>
+		        <h:outputText value="#{msg.shainarea}:"/>
+		        <span id="txt_det_9" class="detalleTarea"></span>
+		        <h:outputText value="#{msg.shaintipoin}:"/>
+		        <span id="txt_det_10" class="detalleTarea"></span>
+		        <h:outputText value="#{msg.shaintipoac}:"/>
+		        <span id="txt_det_11" class="detalleTarea"></span>
+		        <h:outputText value="#{msg.shaintipole}:"/>
+		        <span id="txt_det_12" class="detalleTarea"></span>
+		        <h:outputText value="#{msg.shainubiles}:"/>
+		        <span id="txt_det_13" class="detalleTarea"></span>
+		        <h:outputText value="#{msg.shainhechos}:"/>
 		        <span id="txt_det_1" class="detalleTarea"></span>
 				</h:panelGrid>
 		        </p:panel>
@@ -128,7 +144,7 @@
 		      <div class="modal-body">
 		  <div class="list-group">
 		  <div class="panel panel-warning modalInfo" >
-		        <div class="panel-body">    
+		        <div class="panel-body" style="background-color:#ffe0b3;">    
 		        <p:panel id="panelDetalle2" >
 		        <h:panelGrid columns="2" columnClasses="col1,colmsg">
 		        <h:outputText value="#{msg.Sgc001aTbcomp}:"/>
@@ -191,7 +207,13 @@
 			    <p:message for="turno"/>	
 	    </div>
 		 <div class="col-lg-3 col-md-2 col-sm-2">     			
-				<p:inputText id="area" styleClass="spacing" maxlength="50" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" value="#{shaincidencias.area}"/>
+				<p:autoComplete id="centop" styleClass="spacing2" value="#{shaincidencias.centop}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeCentop}"  valueChangeListener="#{bd.setCentop(shaincidencias.centop)}" dropdown="true" scrollHeight="250">
+			    <p:ajax event="itemSelect" update="tbResult" listener="#{bd.setCentop(shaincidencias.centop)}" />	     
+				</p:autoComplete> 
+				<p:watermark for="centop" value="#{msg.shaincidenciasco}"  />
+				<p:spacer height="1"/> 
+				<p:message for="centop"/>  
+				<p:inputText id="area" styleClass="spacing2" maxlength="50" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" value="#{shaincidencias.area}"/>
 			    <p:watermark for="area" value="#{msg.shaincidenciasar}" />
 			    <p:spacer height="1"/>
 			    <p:message for="area"/>	
@@ -217,7 +239,7 @@
 			    <p:message for="cuerpo"/>	
 	    </div>
 	    <div class="col-lg-3 col-md-2 col-sm-2">     			
-				<p:inputTextarea id="hechos" styleClass="spacing" autoResize="true" maxlength="500" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" value="#{shaincidencias.hechos}" counter="display" counterTemplate="{0} caracteres restantes."/>
+				<p:inputTextarea id="hechos" styleClass="spacingArea" autoResize="true" maxlength="2000" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" value="#{shaincidencias.hechos}" counter="display" counterTemplate="{0} caracteres restantes."/>
 				<p:watermark for="hechos" value="#{msg.shaincidenciasde}" />
 				<p:spacer height="1"/>
 				<p:message for="hechos"/>
@@ -282,7 +304,7 @@
             <f:facet name="header">#{msg.Shaincidenciastbde}</f:facet>  
             <center>
             <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal"
-            onclick="detalle('#{tb.zhechos}');">
+            onclick="detalle('#{tb.zturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.ztipole}','#{tb.zcuerpo}','#{tb.zhechos}');">
             <i class="fa fa-search fa-2x"></i>
             </button>
             </center>
@@ -296,7 +318,7 @@
             
             <p:column width="60" >  
             <f:facet name="header">#{msg.bvt001TbEnviar}</f:facet>   
-             <p:commandLink styleClass="edit" onclick="enviar('#{tb.zci}','#{tb.zuno}','#{tb.zdos}','#{tb.ztres}','#{tb.zfevento}','#{tb.zturno}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.ztipole}','#{tb.zcuerpo}','#{tb.zhechos}','#{tb.zinpsasel}','#{tb.zregist}','1'); PF('panelwv').toggle()" 
+             <p:commandLink styleClass="edit" onclick="enviar('#{tb.zci}','#{tb.zuno}','#{tb.zdos}','#{tb.ztres}','#{tb.zfevento}','#{tb.zturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.ztipole}','#{tb.zcuerpo}','#{tb.zhechos}','#{tb.zinpsasel}','#{tb.zregist}','1'); PF('panelwv').toggle()" 
             title="Enviar"><i class="fa fa-pencil-square-o fa-2x text-info"></i></p:commandLink>
             </p:column> 
 			

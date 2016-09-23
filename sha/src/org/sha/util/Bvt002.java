@@ -898,7 +898,7 @@ import org.primefaces.model.SortOrder;
         	   query += " ( select query.*, rownum as rn from";
         	   query += " (SELECT trim(A.CODUSER) AS CODUSER, trim(A.DESUSER), trim(A.CLUSER), A.B_CODROL, CASE WHEN A.SUCURSAL IS NULL THEN 'TODAS' ELSE A.SUCURSAL END AS SUCURSAL, B.ROL, CASE WHEN C.DESSUC IS NULL THEN 'TODAS' ELSE C.DESSUC END AS DESSUC, A.MAIL";
         	   query += " FROM SHABVT002 A LEFT OUTER JOIN SHATIPROL B ON A.B_CODROL = B.CODIGO" ;
-        	   query += " LEFT OUTER JOIN NM_TRABAJADOR@INFOCENT_CALENDARIO C ON A.SUCURSAL = C.CODSUC " ;
+        	   query += " LEFT OUTER JOIN SHASUCURSAL C ON A.SUCURSAL = TO_CHAR(C.CODSUC) " ;
         	   query += " WHERE A.CODUSER like '" + coduser.toUpperCase() + "%'";
         	   query += " AND A.CODUSER||A.DESUSER||A.B_CODROL||A.SUCURSAL||B.ROL||C.DESSUC like '%" + ((String) filterValue).toUpperCase() + "%'";
         	   query += " GROUP BY A.CODUSER, A.DESUSER, A.CLUSER, A.B_CODROL, A.SUCURSAL, B.ROL, C.DESSUC, A.MAIL";
@@ -1220,10 +1220,10 @@ import org.primefaces.model.SortOrder;
         con = ds.getConnection();	   		
 
  		String query = "SELECT A.CODSUC, A.CODSUC||' - '||A.DESSUC AS SUCURSAL";
-	           query += " FROM NM_TRABAJADOR@INFOCENT_CALENDARIO A";
+	           query += " FROM SHASUCURSAL A";
 	           query += " WHERE A.CODSUC IS NOT NULL";
 	           query += " GROUP BY A.CODSUC, A.DESSUC";
-	           query += " ORDER BY A.CODSUC";
+	           query += " ORDER BY TO_NUMBER(A.CODSUC)";
         
         pstmt = con.prepareStatement(query);		
         r =  pstmt.executeQuery();

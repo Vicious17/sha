@@ -127,6 +127,7 @@ public void init() {
 	 * 
 	 */
 	private String ci = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ci"); //Usuario logeado
+	private String centop = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("centop"); //Usuario logeado
 	private String nombre = "";
 	private String cargo = "";
 	private String genero = "";
@@ -160,13 +161,48 @@ public void init() {
 	private String znomina = "";
 	private String zsucursal = "";
 	private String zregist = "";
+	private String zcentop = "";
 	private String zdepartamento = "";
+	private String zdessuc = "";
+	private String zcendessuc = "";
 	private Object filterValue = "";
 	private List<Shaincidencias> list = new ArrayList<Shaincidencias>();
 	private int validarOperacion = 0;
 	PntGenerica consulta = new PntGenerica();
 	String[][] tabla;
 
+
+	public String getZdessuc() {
+		return zdessuc;
+	}
+
+	public void setZdessuc(String zdessuc) {
+		this.zdessuc = zdessuc;
+	}
+
+	public String getZcendessuc() {
+		return zcendessuc;
+	}
+
+	public void setZcendessuc(String zcendessuc) {
+		this.zcendessuc = zcendessuc;
+	}
+
+	public String getCentop() {
+		return centop;
+	}
+
+	public void setCentop(String centop) {
+		this.centop = centop;
+	}
+
+	public String getZcentop() {
+		return zcentop;
+	}
+
+	public void setZcentop(String zcentop) {
+		this.zcentop = zcentop;
+	}
 
 	public String getRegist() {
 		return regist;
@@ -515,6 +551,13 @@ public void insert() throws  NamingException {
  		if(tipoac==""){
  			tipoac = " - ";
  		}  
+ 		if(centop==null){
+ 			centop = " - ";
+ 		}
+ 		if(centop==""){
+ 			centop = " - ";
+ 		}  
+        String[] veccentop = centop.split("\\ - ", -1);
         String[] vecztres = ztres.split("\\ - ", -1);
         String[] vectipoac = tipoac.split("\\ - ", -1);
         String[] vecincap = tipoin.split("\\ - ", -1);
@@ -531,7 +574,7 @@ public void insert() throws  NamingException {
     		to_date = "to_date('" + vlfecha + "', 'dd/mon/yyyy hh24:mi')";
     	}
         
-        String query = "INSERT INTO SHAINCIDENCIAS VALUES (?,?,?,?," + to_date + ",?,?,?,?,?,?,?,?,?,'" + getFecha() + "',?,'" + getFecha() + "',NULL)";
+        String query = "INSERT INTO SHAINCIDENCIAS VALUES (?,?,?,?," + to_date + ",?,?,?,?,?,?,?,?,?,'" + getFecha() + "',?,'" + getFecha() + "',NULL,?)";
         pstmt = con.prepareStatement(query);
         pstmt.setString(1, ci.toUpperCase());
         pstmt.setString(2, zuno.toUpperCase());
@@ -546,7 +589,8 @@ public void insert() throws  NamingException {
         pstmt.setString(11, hechos.toUpperCase());
         pstmt.setString(12, inpsasel.toUpperCase());
         pstmt.setString(13, login);
-        pstmt.setString(14, login);            
+        pstmt.setString(14, login);  
+        pstmt.setString(15, veccentop[0].toUpperCase());
         
         //System.out.println(query);
         //System.out.println("ci: " + ci);
@@ -562,6 +606,7 @@ public void insert() throws  NamingException {
         //System.out.println("cuerpo: " + cuerpo);
         //System.out.println("hechos: " + hechos);
         //System.out.println("inpsasel: " + inpsasel);
+        //System.out.println("centro operativo: " + veccentop[0]);
 
         try {
             //Avisando
@@ -660,6 +705,13 @@ public void update() throws  NamingException {
  		if(tipoac==""){
  			tipoac = " - ";
  		}  
+ 		if(centop==null){
+ 			centop = " - ";
+ 		}
+ 		if(centop==""){
+ 			centop = " - ";
+ 		}  
+        String[] veccentop = centop.split("\\ - ", -1);
         String[] vectipoac = tipoac.split("\\ - ", -1);
         String[] vecincap = tipoin.split("\\ - ", -1);
     	
@@ -675,6 +727,7 @@ public void update() throws  NamingException {
          query += " A.INPSASEL = ?,";
          query += " USRACT = ?,";
          query += " FECACT = '" + getFecha() + "'";
+         query += " CENTOP = ?,";
          query += " WHERE A.REGIST = ? ";
 
         pstmt = con.prepareStatement(query);
@@ -687,7 +740,8 @@ public void update() throws  NamingException {
         pstmt.setString(7, hechos.toUpperCase());
         pstmt.setString(8, inpsasel.toUpperCase());
         pstmt.setString(9, login);   
-        pstmt.setInt(10,Integer.parseInt(regist));
+        pstmt.setString(10, veccentop[0].toUpperCase());
+        pstmt.setInt(11,Integer.parseInt(regist));
 
         //System.out.println(query);
         //System.out.println("fecha: " + to_date);
@@ -699,6 +753,7 @@ public void update() throws  NamingException {
         //System.out.println("cuerpo: " + cuerpo);
         //System.out.println("hechos: " + hechos);
         //System.out.println("inpsasel: " + inpsasel);
+        //System.out.println("centro operativo: " + veccentop[0]);
         //System.out.println("registro: " + regist);
         
         // Antes de ejecutar valida si existe el registro en la base de Datos.
@@ -769,25 +824,35 @@ public void update() throws  NamingException {
 	 		if(ci==null){
 	 			ci = "";
 	 		}
+	 		if(centop==null){
+	 			centop = " - ";
+	 		}
+	 		if(centop==""){
+	 			centop = " - ";
+	 		}  
+	        String[] veccentop = centop.split("\\ - ", -1);
 	        String[] vectipoac = tipoac.split("\\ - ", -1);
 	        String[] vecincap = tipoin.split("\\ - ", -1);
 		
-	 if (tabla[0][0].equals(validar)) {
+	 if (tabla[0][0].equals(validar)) { 
+		//ESTE ES EL SELECT DE LOS USUARIOS ADMINISTRADORES
 		//System.out.println("Entre al IF");
 		//Consulta paginada
      String query = "SELECT * FROM"; 
 	    query += "(select query.*, rownum as rn from";
-		query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC||' - '||D.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST";
-	    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D";
+		query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC||' - '||D.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC";
+	    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D, SHASUCURSAL F";
 	    query += " WHERE A.TIPOINCAP = B.CODIGO";
 	    query += " AND A.TIPOACC = C.CODIGO";
 	    query += " AND A.CARGO = D.CODCAR";
 	    query += " AND A.CI = D.TIPDOC||' - '||D.CEDULA";
+	    query += " AND A.CENTOP = TO_CHAR(F.CODSUC)";
 	    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||D.CODSUC||D.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR like '%" + ((String) filterValue).toUpperCase() + "%'";
 	    query += " AND A.CI LIKE '" + ci.toUpperCase() + "%'";
 	    query += " AND A.TIPOINCAP LIKE '" + vecincap[0] + "%'";
 	    query += " AND A.TIPOACC LIKE '" + vectipoac[0] + "%'";
-	    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC, D.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST";
+	    query += " AND A.CENTOP LIKE '" + veccentop[0] + "%'";
+	    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC, D.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC";
 	    query += ")query ) " ;
 	    query += " WHERE ROWNUM <="+pageSize;
 	    query += " AND rn > ("+ first +")";
@@ -820,6 +885,9 @@ public void update() throws  NamingException {
  	select.setZsucursal(r.getString(18));
  	select.setZdepartamento(r.getString(19));
  	select.setZregist(r.getString(21));
+ 	select.setZcentop(r.getString(22));
+ 	select.setZdessuc(r.getString(23));
+ 	select.setZcendessuc(r.getString(22)+ " - " + r.getString(23));
 
    	
     	//Agrega la lista
@@ -827,23 +895,25 @@ public void update() throws  NamingException {
     }
 	}
 	 
-	 else {
+	 else { //ESTE ES EL SELECT DE LOS USUARIOS REGULARES
 		 	//System.out.println("Entre al ELSE");
 			//Consulta paginada
 	     String query = "SELECT * FROM"; 
 		    query += "(select query.*, rownum as rn from";
-			query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC||' - '||D.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST";
-		    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D, SHABVT002 E";
+			query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, F.CODSUC||' - '||F.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC";
+		    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D, SHABVT002 E, SHASUCURSAL F";
 		    query += " WHERE A.TIPOINCAP = B.CODIGO";
 		    query += " AND A.TIPOACC = C.CODIGO";
 		    query += " AND A.CARGO = D.CODCAR";
-		    query += " AND D.CODSUC = E.SUCURSAL";
+		    query += " AND A.CENTOP = F.CODSUC";
+			query += " AND E.SUCURSAL = TO_CHAR(F.CODSUC)";
 		    query += " AND A.CI = D.TIPDOC||' - '||D.CEDULA";
-		    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||D.CODSUC||D.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR like '%" + ((String) filterValue).toUpperCase() + "%'";
+		    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||F.CODSUC||F.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR like '%" + ((String) filterValue).toUpperCase() + "%'";
 		    query += " AND A.CI LIKE '" + ci.toUpperCase() + "%'";
 		    query += " AND A.TIPOINCAP LIKE '" + vecincap[0] + "%'";
 		    query += " AND A.TIPOACC LIKE '" + vectipoac[0] + "%'";
-		    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC, D.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST";
+		    query += " AND A.CENTOP LIKE '" + veccentop[0] + "%'";
+		    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, F.CODSUC, F.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC";
 		    query += ")query ) " ;
 		    query += " WHERE ROWNUM <="+pageSize;
 		    query += " AND rn > ("+ first +")";
@@ -876,6 +946,9 @@ public void update() throws  NamingException {
 	 	select.setZsucursal(r.getString(18));
 	 	select.setZdepartamento(r.getString(19));
 	 	select.setZregist(r.getString(21));
+	 	select.setZcentop(r.getString(22));
+	 	select.setZdessuc(r.getString(23));
+	 	select.setZcendessuc(r.getString(22)+ " - " + r.getString(23));
 
 	   	
 	    	//Agrega la lista
@@ -900,6 +973,19 @@ public void update() throws  NamingException {
        	    Context initContext = new InitialContext();     
       		DataSource ds = (DataSource) initContext.lookup(JNDI);
       		con = ds.getConnection();
+      		
+      		String validar = "1";
+    		String querycon = " SELECT B_CODROL FROM SHABVT002"
+    						+ " WHERE CODUSER LIKE '" + login.toUpperCase() + "%'";
+    		
+    			//System.out.println(querycon);
+    			
+    			consulta.selectPntGenerica(querycon, JNDI);
+    			
+    			rows = consulta.getRows();
+    			tabla = consulta.getArray();
+    			//System.out.println(tabla[0][0]);
+    			
      		if(ci==" - "){
      			ci = "";
      		}
@@ -915,11 +1001,21 @@ public void update() throws  NamingException {
 	 		if(tipoac==""){
 	 			tipoac = " - ";
 	 		}  
+	 		if(centop==null){
+	 			centop = " - ";
+	 		}
+	 		if(centop==""){
+	 			centop = " - ";
+	 		}  
+	        String[] veccentop = centop.split("\\ - ", -1);
 	        String[] vectipoac = tipoac.split("\\ - ", -1);
             String[] vecincap = tipoin.split("\\ - ", -1);
       		
+            if (tabla[0][0].equals(validar)) { 
+        		//ESTE ES EL COUNTER DE LOS USUARIOS ADMINISTRADORES
+        		//System.out.println("Entre al IF");
      		//Consulta paginada
-     		String query = "SELECT COUNT_SHAINCIDENCIAS('" + ((String) filterValue).toUpperCase() + "','" + ci.toUpperCase() + "','" + vecincap[0].toUpperCase() + "','" + vectipoac[0].toUpperCase() + "') FROM DUAL";
+     		String query = "SELECT COUNT_SHAINCIDENCIAS('" + ((String) filterValue).toUpperCase() + "','" + ci.toUpperCase() + "','" + vecincap[0].toUpperCase() + "','" + vectipoac[0].toUpperCase() + "','" + veccentop[0].toUpperCase() + "') FROM DUAL";
 
            
            pstmt = con.prepareStatement(query);
@@ -930,10 +1026,32 @@ public void update() throws  NamingException {
            
            while (r.next()){
            	rows = r.getInt(1);
+           	
            }
+           }
+            else {
+            	//ESTE ES EL COUNTER DE LOS USUARIOS REGULARES
+    		 	//System.out.println("Entre al ELSE");
+    		 	//Consulta paginada
+         		String query = "SELECT COUNT_SHAINCIDENCIAS2('" + ((String) filterValue).toUpperCase() + "','" + ci.toUpperCase() + "','" + vecincap[0].toUpperCase() + "','" + vectipoac[0].toUpperCase() + "','" + veccentop[0].toUpperCase() + "') FROM DUAL";
+
+               
+               pstmt = con.prepareStatement(query);
+               //System.out.println(query);
+
+                r =  pstmt.executeQuery();
+               
+               
+               while (r.next()){
+               	rows = r.getInt(1);
+               	
+               }
+            	
+            }
         } catch (SQLException e){
             e.printStackTrace();    
         }
+        
            //Cierra las conecciones
            pstmt.close();
            con.close();
@@ -972,6 +1090,7 @@ public void update() throws  NamingException {
     public void reset() {
     	// TODO Auto-generated method stub
   		ci = null; 
+  		centop = null;
   		tipoin = null;
   		tipoac = null;
     }    

@@ -1,12 +1,13 @@
-create or replace FUNCTION "COUNT_SHAINCIDENCIAS" (pbusqueda varchar, pci varchar, pincap varchar, ptipacc varchar, psuc varchar)
+create or replace FUNCTION "COUNT_SHAINCIDENCIAS2" (pbusqueda varchar, pci varchar, pincap varchar, ptipacc varchar, psuc varchar)
 RETURN VARCHAR2 AS 
 vcount number;
 BEGIN
   SELECT count(*) into vcount 
   FROM  (
          SELECT  CI,NOMBRE,GENERO,CARGO,FECHA,TURNO,AREAEVENT,TIPOINCAP,TIPOACC,TIPOLES,UBILES,DESCHEC,INPSASEL,CENTOP
-         FROM SHAINCIDENCIAS
-         WHERE CI||NOMBRE||GENERO||CARGO||FECHA||TURNO||AREAEVENT||TIPOINCAP||TIPOACC||TIPOLES||UBILES||DESCHEC||INPSASEL||CENTOP like '%'||pbusqueda||'%'
+         FROM SHAINCIDENCIAS, SHABVT002
+         WHERE CENTOP = SUCURSAL
+         AND CI||NOMBRE||GENERO||CARGO||FECHA||TURNO||AREAEVENT||TIPOINCAP||TIPOACC||TIPOLES||UBILES||DESCHEC||INPSASEL||CENTOP like '%'||pbusqueda||'%'
          AND CI like '%'||pci||'%'
          AND TIPOINCAP like '%'||pincap||'%'
          AND TIPOACC like '%'||ptipacc||'%'

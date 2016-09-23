@@ -344,4 +344,29 @@ html, body {
 	width: 200px;
 	height: 45px;
 }	
+
+	.spacing2 {
+    margin-bottom:3px;
+    margin-top:3px;
+	width: 240px;
+	height: 45px;
+}
 	
+		.spacingArea {
+    margin-bottom:3px;
+    margin-top:3px;
+	width: 500px;
+	height: 45px;
+}
+	
+	.forty-percent {
+     width: 31%;
+}
+
+	.sixty-percent {
+	     width: 60%;
+	}
+	
+	.top-alignment {
+	     vertical-align: top;
+	}

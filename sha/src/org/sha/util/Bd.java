@@ -519,4 +519,12 @@ public class Bd  {
 	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tipoac", tipoac);
 	}
 	
+	/**
+	 * Setea tipo de valor de la meta para busqueda
+	 * @param next
+	 */
+	public void setCentop(String centop){
+	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("centop", centop);
+	}
+	
 }

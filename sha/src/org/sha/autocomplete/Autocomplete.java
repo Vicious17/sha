@@ -951,6 +951,8 @@ public class Autocomplete extends Bd {
 				String querysb = " SELECT A.TIPDOC||' - '||A.CEDULA" 
 					       + " FROM NM_TRABAJADOR@INFOCENT_CALENDARIO A"
 						   + " WHERE A.TIPDOC || A.CEDULA LIKE '%" + query.toUpperCase() + "%'"
+				    	   + " AND A.FECRET IS NULL "
+				    	   + " OR A.FECRET > SYSDATE"
 						   + " GROUP BY A.TIPDOC, A.CEDULA"
 						   + " ORDER BY A.TIPDOC, A.CEDULA";
 
@@ -974,12 +976,91 @@ public class Autocomplete extends Bd {
 	    		//System.out.println("EL USUARIO NO ES IGUAL");
 
 	    		String querysb = "SELECT A.TIPDOC||' - '||A.CEDULA " 
-	    		        + " FROM NM_TRABAJADOR@INFOCENT_CALENDARIO A, SHABVT002 B "
+	    		        + " FROM NM_TRABAJADOR@INFOCENT_CALENDARIO A, SHASUCURSAL B, SHABVT002 C "
 	    		        + " WHERE A.CODSUC = B.SUCURSAL "
+	    		        + " AND TO_CHAR(B.CODSUC) = C.SUCURSAL "
+	    		        + " AND A.FECRET IS NULL "
+	    		        + " OR A.FECRET > SYSDATE"
 	    		        + " AND A.TIPDOC || A.CEDULA LIKE '%" + query.toUpperCase() + "%'"
 	    				+ " GROUP BY A.TIPDOC, A.CEDULA "
 	    				+ " ORDER BY A.TIPDOC, A.CEDULA";
 
+				//System.out.println(querysb);
+				//System.out.println(JNDISB);
+				List<String> results = new ArrayList<String>();
+
+				consulta.selectPntGenerica(querysb, JNDI);
+
+				rows = consulta.getRows();
+				tabla = consulta.getArray();
+				for (int i = 0; i < rows; i++) {
+					results.add(tabla[i][0]);
+				}
+				return results;
+	    		
+	    	}	
+	}
+	
+	/**
+	 * Listas indicadores.
+	 * 
+	 * @throws NamingException
+	 * @return List String
+	 * @throws IOException
+	 **/
+	public List<String> completeCentop(String query) throws NamingException,IOException {
+		//System.out.println("entre al metodo nivapp");
+
+		String validar = "1";
+		String querycon = " SELECT B_CODROL FROM SHABVT002"
+						+ " WHERE CODUSER LIKE '" + login.toUpperCase() + "%'";
+		
+			//System.out.println(querycon);
+			
+			consulta.selectPntGenerica(querycon, JNDI);
+			
+			rows = consulta.getRows();
+			tabla = consulta.getArray();
+			//System.out.println(tabla[0][0]);
+			//System.out.println(tabla[0][1]);
+			
+			if (tabla[0][0].equals(validar)) {
+	    		//System.out.println(tabla1[0][0]);
+	    		//System.out.println(validar);
+	    		//System.out.println("EL USUARIO ES IGUAL");
+	    		
+				String querysb = " SELECT A.CODSUC||' - '||A.DESSUC" 
+					       + " FROM SHASUCURSAL A"
+						   + " WHERE A.CODSUC||A.DESSUC LIKE '%" + query.toUpperCase() + "%'"
+						   + " GROUP BY A.CODSUC, A.DESSUC"
+						   + " ORDER BY TO_NUMBER(A.CODSUC)";
+
+				//System.out.println(querysb);
+				//System.out.println(JNDISB);
+				List<String> results = new ArrayList<String>();
+
+				consulta.selectPntGenerica(querysb, JNDI);
+
+				rows = consulta.getRows();
+				tabla = consulta.getArray();
+				for (int i = 0; i < rows; i++) {
+					results.add(tabla[i][0]);
+				}
+				return results;
+
+	    }
+	    	else {
+	    		//System.out.println(tabla1[0][0]);
+	    		//System.out.println(validar);
+	    		//System.out.println("EL USUARIO NO ES IGUAL");
+
+				String querysb = " SELECT A.CODSUC||' - '||A.DESSUC" 
+					       + " FROM SHASUCURSAL A, SHABVT002 B"
+		    		       + " WHERE A.CODSUC = B.SUCURSAL "
+						   + " AND A.CODSUC||A.DESSUC LIKE '%" + query.toUpperCase() + "%'"
+						   + " GROUP BY A.CODSUC, A.DESSUC"
+						   + " ORDER BY TO_NUMBER(A.CODSUC)";
+				
 				//System.out.println(querysb);
 				//System.out.println(JNDISB);
 				List<String> results = new ArrayList<String>();
