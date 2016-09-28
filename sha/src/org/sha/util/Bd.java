@@ -527,4 +527,11 @@ public class Bd  {
 	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("centop", centop);
 	}
 	
+	/**
+	 * Setea tipo de valor de la meta para busqueda
+	 * @param next
+	 */
+	public void setSucursal(String sucursal){
+	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sucursal", sucursal);
+	}	
 }
