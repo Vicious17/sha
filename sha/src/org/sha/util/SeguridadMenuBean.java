@@ -95,7 +95,7 @@ public class SeguridadMenuBean extends Bd {
 	}
 	
 	/**
-	 * Lee las opciones del menú para acceso totones
+	 * Lee las opciones del menú para acceso botones
 	 * 
 	 * @return true o false
 	 * @throws IOException 
@@ -106,9 +106,9 @@ public class SeguridadMenuBean extends Bd {
 			RequestContext.getCurrentInstance().execute("PF('idleDialog').show()");
 			rendered = "false";
 		} else {
-		consulta.selectPntGenerica("select codvis " + "from bvt005 "
+		consulta.selectPntGenerica("select codvis " + "from SHABVT005 "
 				+ " where codopc ='" + opc.toUpperCase()
-				+ "' and b_codrol = (select b_codrol " + " from bvt002 "
+				+ "' and b_codrol = (select b_codrol " + " from shabvt002 "
 				+ " where coduser = '" + login.toUpperCase() + "')", JNDI);
 		String[][] tabla = consulta.getArray();
 		int rows = consulta.getRows();

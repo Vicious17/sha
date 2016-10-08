@@ -24,7 +24,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<script src="../resources/js/tipac.js" type="text/javascript"></script>
+<script src="../resources/js/sharazon.js" type="text/javascript"></script>
 <ui:include src="common/cabeceras.xhtml" />
 <ui:include src="common/timeout.xhtml" />
 <h:body >
@@ -41,11 +41,11 @@
         <!-- Page Content --> 
              
      <div class="container-fluid" id="containerF">
-     <h:form id="formtipac"  >
+     <h:form id="formsharazon"  >
         
       <!-- Botonera --> 
      <div id="botones">     
-       <p:commandButton update="tbResult, panel, growl" accesskey="i" id="btnIn" action="#{tipac.guardar}" 
+       <p:commandButton update="tbResult, panel, growl" accesskey="i" id="btnIn" action="#{sharazon.guardar}" 
         rendered="#{smnubean.opcbot('1')}" value="#{msg.htmlguardar}" title="#{msg.htmlg}" icon="fa fa-floppy-o text-info" styleClass="botonera"/>
        <p:commandButton accesskey="r" id="btnEl" onclick="modalDelete();" 
         rendered="#{smnubean.opcbot('2')}" value="#{msg.htmlborrar}" icon="fa fa-trash text-info" title="#{msg.htmle}" styleClass="botonera" />
@@ -74,7 +74,7 @@
 			       <center style="font-size: 14px">#{msg.html31}</center>
 			      </div>
 			      <div class="modal-footer">
-			        <p:commandLink  action="#{tipac.delete}"  styleClass="btn btn-md btn-info" value="#{msg.htmlborrar}" immediate="true" update="tbResult, growl" accesskey="r" onclick="modalHide()"/>
+			        <p:commandLink  action="#{sharazon.delete}"  styleClass="btn btn-md btn-info" value="#{msg.htmlborrar}" immediate="true" update="tbResult, growl" accesskey="r" onclick="modalHide()"/>
 			        <p:spacer height="5"/>
 			        <p:commandLink  styleClass="btn btn-md btn-info" value="#{msg.html48}" immediate="true" update="tbResult, growl" onclick="modalHide()"/>
 			       </div>
@@ -86,30 +86,29 @@
 	   <!-- Panel -->      
      <div class="panel panel-warning">
      <div class="panel-body">
-     <p:panel id="panel" widgetVar="panelwv" header="#{msg.tipactit}" toggleable="true" collapsed="true" style="white-space: normal;">	  
-     <div class="pull-right"><a HREF="http://www.openbizview.com/wiki/doku.php?id=reportes" target="_new" title="Wiki"><i class="fa fa-file-text text-info"></i></a></div>	         
-	     <div class="row">
+     <p:panel id="panel" widgetVar="panelwv" header="#{msg.sharazontit}" toggleable="true" collapsed="true" style="white-space: normal;">	  
+        <div class="row">
 		 <div class="col-lg-4 col-md-4 col-sm-4">  
-			    <p:inputText id="codigo" styleClass="spacing" maxlength="50" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" value="#{tipac.codigo}"/>
+			    <p:inputText id="codigo" styleClass="spacing" maxlength="50" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" value="#{sharazon.codigo}"/>
 			    <p:watermark for="codigo" value="#{msg.sgc001cod}" />
 			    <p:spacer height="1"/>
 			    <p:message for="codigo"/>	
-			    <p:inputText id="desc" styleClass="spacing" maxlength="100" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" value="#{tipac.desc}"/>
+			    <p:inputText id="desc" styleClass="spacing" maxlength="100" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" value="#{sharazon.desc}"/>
 			    <p:watermark for="desc" value="#{msg.sgc001des}" />
 			    <p:spacer height="1"/>
 			    <p:message for="desc"/>       
 	    </div>
 	    </div>
-	    <h:inputHidden id="vop" value="#{tipac.validarOperacion}"/>
+	    <h:inputHidden id="vop" value="#{sharazon.validarOperacion}"/>
 	   </p:panel> 
      </div>
      </div>
             
 
-     <p:dataTable id="tbResult" styleClass="table table-striped" emptyMessage="#{msg.result}" var="tb"  value="#{tipac.lazyModel}"  lazy="true" sortBy="#{tb.zCODIGO}"
+     <p:dataTable id="tbResult" styleClass="table table-striped" emptyMessage="#{msg.result}" var="tb"  value="#{sharazon.lazyModel}"  lazy="true" sortBy="#{tb.zCODIGO}"
 			paginator="true" paginatorAlwaysVisible="false" rows="15" rowsPerPageTemplate="5,10,15,20,50,100,500" paginatorPosition="top"
 			paginatorTemplate="{FirstPageLink} {PreviousPageLink} &#160;&#160; {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
-			currentPageReportTemplate=" {currentPage} - {totalPages} #{msg.html28} #{tipac.rows}"  
+			currentPageReportTemplate=" {currentPage} - {totalPages} #{msg.html28} #{sharazon.rows}"  
 			widgetVar="global" reflow="true">
 			
 			<f:facet name="header"> 			

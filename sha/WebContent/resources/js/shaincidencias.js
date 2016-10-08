@@ -1,5 +1,5 @@
 	/*
-	 *  Copyright (C) 2011  ANDRES DOMINGUEZ, CHRISTIAN DÃ�AZ
+	 *  Copyright (C) 2011  MAURICIO ALBANESE
 	
 	    Este programa es software libre: usted puede redistribuirlo y/o modificarlo 
 	    bajo los tÃ©rminos de la Licencia PÃºblica General GNU publicada 
@@ -29,7 +29,7 @@
 	    clearUpdateInput('formshaincidencias:cargo', '#F2F2F2');
 	}
 	
-	function enviar(vT0,vT1,vT2,vT3,vT4,vT5,vT6,vT7,vT8,vT9,vT10,vT11,vT12,vT13,vT14,vT15){
+	function enviar(vT0,vT1,vT2,vT3,vT4,vT5,vT6,vT7,vT8,vT9,vT10,vT11,vT12,vT13,vT14,vT15,vT16,vT17){
 		  document.getElementById("formshaincidencias:ci_input").value= rTrim(vT0);
 		  document.getElementById("formshaincidencias:nombre").value= rTrim(vT1);
 		  document.getElementById("formshaincidencias:genero").value= rTrim(vT2);
@@ -40,13 +40,27 @@
 		  document.getElementById("formshaincidencias:area").value= rTrim(vT7);
 		  document.getElementById("formshaincidencias:tipoin_input").value= rTrim(vT8);
 		  document.getElementById("formshaincidencias:tipoac_input").value= rTrim(vT9);
-		  document.getElementById("formshaincidencias:tipole").value= rTrim(vT10);
+		  document.getElementById("formshaincidencias:tipole_input").value= rTrim(vT10);
 		  document.getElementById("formshaincidencias:cuerpo").value= rTrim(vT11);
 		  document.getElementById("formshaincidencias:hechos").value= rTrim(vT12);
-		  document.getElementById("formshaincidencias:inpsasel").value= rTrim(vT13);
-		  document.getElementById("formshaincidencias:regist").value= rTrim(vT14);
-		  document.getElementById("formshaincidencias:vop").value= rTrim(vT15);
+		  document.getElementById("formshaincidencias:reportado_input").value= rTrim(vT13);	
+		  document.getElementById("formshaincidencias:inpsasel").value= rTrim(vT14);
+		  document.getElementById("formshaincidencias:razon_input").value= rTrim(vT15);
+		  document.getElementById("formshaincidencias:regist").value= rTrim(vT16);
+		  document.getElementById("formshaincidencias:vop").value= rTrim(vT17);
 		  updateInput('formshaincidencias:ci_input', '#F2F2F2');
+		  
+		  //alert("reportado: " + document.getElementById('formshaincidencias:reportado_input').value);
+		  if (document.getElementById('formshaincidencias:reportado_input').value == "1 - SI") {
+				//alert("entre al if");
+				document.getElementById('formshaincidencias:inpsasel').style.display = 'block';
+				document.getElementById('formshaincidencias:razon').style.display = 'none';
+			}
+			else {
+				//alert("entre al else");
+				document.getElementById('formshaincidencias:inpsasel').style.display = 'none';
+				document.getElementById('formshaincidencias:razon').style.display = 'block';
+		    }	
 		}
 	
 	function detalle(vT0,vT1,vT2,vT3,vT4,vT5,vT6,vT7){
@@ -93,3 +107,52 @@
 	function mymodal2Hide(){
 		$("#myModal2").modal('hide');
 	}
+	
+	function myFunction() {
+	    //alert("Page is loaded");
+	    //alert("Valor: " + document.getElementById('formshaincidencias:reportado_input').value);
+			document.getElementById('formshaincidencias:inpsasel').style.display = 'none';
+			document.getElementById('formshaincidencias:razon').style.display = 'none';
+     /* if (document.getElementById('formshaincidencias:reportado_input').value == "1") {
+			//alert("entre al if 1");
+			document.getElementById('formshaincidencias:inpsasel').style.display = 'block';
+			document.getElementById('formshaincidencias:razon').style.display = 'none';
+		}
+		else {
+			//alert("entre al else");
+			document.getElementById('formshaincidencias:inpsasel').style.display = 'none';
+			document.getElementById('formshaincidencias:razon').style.display = 'block';
+	    }		*/
+	} 
+	
+	function inputshow() {		
+	    //alert("entre al input show");
+		var valor = document.getElementById('formshaincidencias:reportado_input');
+		var validar = valor.value;
+		//alert(validar.split(" ",1));
+		if (validar.split(" ",1)==1) {		
+			//alert("entre al if");
+			//alert(validar.split(" ",1));
+			document.getElementById('formshaincidencias:inpsasel').style.display = 'block';
+			document.getElementById('formshaincidencias:razon').style.display = 'none';
+	    }	
+		
+		else  {
+			//alert("entre al else");
+			//alert(validar.split(" ",1));
+			document.getElementById('formshaincidencias:inpsasel').style.display = 'none';
+			document.getElementById('formshaincidencias:razon').style.display = 'block';
+	    }		
+	}
+	
+	function fieldshide() {
+	    //alert("llame la funcion fieldshide");
+		document.getElementById('formshaincidencias:inpsasel').style.display = 'none';
+		document.getElementById('formshaincidencias:razon').style.display = 'none';	
+	} 
+	
+	function fieldsshow() {
+	    //alert("llame la funcion fieldshide");
+		document.getElementById('formshaincidencias:inpsasel').style.display = 'block';
+		document.getElementById('formshaincidencias:razon').style.display = 'block';	
+	} 

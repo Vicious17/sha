@@ -534,4 +534,28 @@ public class Bd  {
 	public void setSucursal(String sucursal){
 	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sucursal", sucursal);
 	}	
+	
+	/**
+	 * Setea tipo de valor de la meta para busqueda
+	 * @param next
+	 */
+	public void setReportado(String reportado){
+	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportado", reportado);
+	}	
+	
+	/**
+	 * Setea tipo de valor de la meta para busqueda
+	 * @param next
+	 */
+	public void setRazon(String razon){
+	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("razon", razon);
+	}	
+	
+	/**
+	 * Setea tipo de valor de la meta para busqueda
+	 * @param next
+	 */
+	public void setTipole(String tipole){
+	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tipole", tipole);
+	}	
 }

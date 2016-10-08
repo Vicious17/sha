@@ -58,34 +58,34 @@ import org.primefaces.model.SortOrder;
  */
 @ManagedBean
 @ViewScoped
-public class Tipac extends Bd implements Serializable {
+public class Sharazon extends Bd implements Serializable {
 
 /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private LazyDataModel<Tipac> lazyModel;  
+	private LazyDataModel<Sharazon> lazyModel;  
 	
 	
 	/**
 	 * @return the lazyModel
 	 */
-	public LazyDataModel<Tipac> getLazyModel() {
+	public LazyDataModel<Sharazon> getLazyModel() {
 		return lazyModel;
 	}	
 
 @PostConstruct
 public void init() {
 	//System.out.println("entre al metodo INIT");
-	lazyModel  = new LazyDataModel<Tipac>(){
+	lazyModel  = new LazyDataModel<Sharazon>(){
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 7217573531435419432L;
 		
         @Override
-		public List<Tipac> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) { 
+		public List<Sharazon> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) { 
         	//Filtro
         	if (filters != null) {
            	 for(Iterator<String> it = filters.keySet().iterator(); it.hasNext();) {
@@ -135,7 +135,7 @@ public void init() {
 	private String codigo = "";
 	private String desc = "";
 	private Object filterValue = "";
-	private List<Tipac> list = new ArrayList<Tipac>();
+	private List<Sharazon> list = new ArrayList<Sharazon>();
 	private int validarOperacion = 0;
 	//private String instancia = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("instancia"); //Usuario logeado
 	private String zcodigo = "";
@@ -222,7 +222,7 @@ public void insert() throws  NamingException {
  		DataSource ds = (DataSource) initContext.lookup(JNDI);
         con = ds.getConnection();
                     
-        String query = "INSERT INTO SHATIPAC VALUES (?,?,?,'" + getFecha() + "',?,'" + getFecha() + "')";
+        String query = "INSERT INTO SHARAZON VALUES (?,?,?,'" + getFecha() + "',?,'" + getFecha() + "')";
         pstmt = con.prepareStatement(query);
         pstmt.setString(1, codigo.toUpperCase());
         pstmt.setString(2, desc.toUpperCase());
@@ -266,7 +266,7 @@ public void delete() throws NamingException  {
         	
         	String param = "'" + StringUtils.join(chkbox, "','") + "'";
 
-        	String query = "DELETE from SHATIPAC WHERE CODIGO in (" + param + ") ";
+        	String query = "DELETE from SHARAZON WHERE CODIGO in (" + param + ") ";
         		        	
             pstmt = con.prepareStatement(query);
             //System.out.println(query);
@@ -306,7 +306,7 @@ public void update() throws  NamingException {
   		
   		con = ds.getConnection();		
   		
-        String query = "UPDATE SHATIPAC";
+        String query = "UPDATE SHARAZON";
          query += " SET DESCR = ?, ";
          query += " USRACT = ?,";
          query += " FECACT = '" + getFecha() + "'";
@@ -369,8 +369,9 @@ public void guardar() throws NamingException, SQLException{
      String query = "SELECT * FROM"; 
 	    query += "(select query.*, rownum as rn from";
 		query += "(SELECT A.CODIGO, A.DESCR";
-	    query += " FROM SHATIPAC A";
+	    query += " FROM SHARAZON A";
 	    query += " WHERE A.CODIGO || A.DESCR like '%" + ((String) filterValue).toUpperCase() + "%'";
+	    query += " AND A.CODIGO != 0";
 	    query += " GROUP BY A.CODIGO, A.DESCR";
 	    query += ")query ) " ;
 	    query += " WHERE ROWNUM <="+pageSize;
@@ -383,7 +384,7 @@ public void guardar() throws NamingException, SQLException{
     r =  pstmt.executeQuery();
     
     while (r.next()){
- 	Tipac select = new Tipac();
+ 	Sharazon select = new Sharazon();
  	select.setZcodigo(r.getString(1));
  	select.setZdesc(r.getString(2));
    	
@@ -412,7 +413,7 @@ public void guardar() throws NamingException, SQLException{
       		con = ds.getConnection();
 
      		//Consulta paginada
-     		String query = "SELECT COUNT_SHATIPAC('" + ((String) filterValue).toUpperCase() + "') FROM DUAL";
+     		String query = "SELECT COUNT_SHARAZON('" + ((String) filterValue).toUpperCase() + "') FROM DUAL";
 
            
            pstmt = con.prepareStatement(query);

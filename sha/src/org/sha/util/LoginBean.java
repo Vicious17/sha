@@ -122,8 +122,8 @@ public class LoginBean extends Bd {
 		if(rows>0){
 		String vLusuario = tabla[0][0].toUpperCase().toString();
 		String vLclave = tabla[0][1].toString();
-		System.out.println("Usuario: " + vLusuario);
-		System.out.println("Clave: " + vLclave);
+		//System.out.println("Usuario: " + vLusuario);
+		//System.out.println("Clave: " + vLclave);
 		
 		//Valida que usuario y claves sean los mismos, realiza el login y crea la variable de session
 		if(usuario.equals(vLusuario) && !md.getStringMessageDigest(clave,StringMD.SHA256).equals(vLclave)){
@@ -136,7 +136,7 @@ public class LoginBean extends Bd {
 			FacesContext.getCurrentInstance().addMessage(null, msj);
 
 		} else	if(usuario.equals(vLusuario) && md.getStringMessageDigest(clave,StringMD.SHA256).equals(vLclave)){
-			System.out.println("Usuario y contraseña correctos");
+			//System.out.println("Usuario y contraseña correctos");
 
 			//Creando la variable de session	
 			sesionOk = ( HttpSession ) FacesContext.getCurrentInstance().getExternalContext().getSession(true);

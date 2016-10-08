@@ -19,13 +19,13 @@
 	
 	function limpiar()
 	{  //Llamado por el boton limpiar
-	    document.getElementById("formshasuc:vop").value="0";
-	    clearUpdateInput('formshasuc:codigo', 'white');
+	    document.getElementById("formsharazon:vop").value="0";
+	    clearUpdateInput('formsharazon:codigo', 'white');
 	}
 	
 	function enviar(vT0,vT1,vT2){
-		  document.getElementById("formshasuc:codigo").value= rTrim(vT0);
-		  document.getElementById("formshasuc:desc").value= rTrim(vT1);
-		  document.getElementById("formshasuc:vop").value= rTrim(vT2);
-		  updateInput('formshasuc:codigo', '#F2F2F2');
+		  document.getElementById("formsharazon:codigo").value= rTrim(vT0);
+		  document.getElementById("formsharazon:desc").value= rTrim(vT1);
+		  document.getElementById("formsharazon:vop").value= rTrim(vT2);
+		  updateInput('formsharazon:codigo', '#F2F2F2');
 		}

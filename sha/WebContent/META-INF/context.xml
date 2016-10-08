@@ -32,38 +32,39 @@
     <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
     
      --> 
-  <!--  Conexion de oracle desarrollo -->
+  <!--  Conexion de oracle desarrollo 
       <Resource name="jdbc/oradesa" auth="Container"
 		       type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"
 		       url="jdbc:oracle:thin:@172.20.5.88:1521:orclbi"
 		       username="bi" password="bi" maxActive="20" maxIdle="10"
-		       maxWait="-1"/>  
+		       maxWait="-1"/>  -->
              
-  <!--  Conexion de oracle local  -->
+  <!--  Conexion de oracle local  
       <Resource name="jdbc/orabiz" auth="Container"
               type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"
               url="jdbc:oracle:thin:@localhost:1521:xe"
               username="openbizview" password="openbizview" maxActive="20" maxIdle="10"
-              maxWait="-1"/> 
+              maxWait="-1"/> -->
       
-       
-  <!-- Conexion Sybase 
-      <Resource name="jdbc/sybase" auth="Container"
-              type="javax.sql.DataSource" driverClassName="net.sourceforge.jtds.jdbc.Driver"
-              url="jdbc:jtds:sybase://10.10.2.101:4901:R3P"
-              username="sapsa" password="*.Tpvc2804" maxActive="20" maxIdle="10"
-              maxWait="-1"/>
-    -->             
-<!--    
-    <Resource name="jdbc/orabiz" auth="Container"
-          type="javax.sql.DataSource" driverClassName="org.postgresql.Driver"
-          url="jdbc:postgresql://127.0.0.1:5432/openbizview"
-          username="openbizview" password="openbizview" maxActive="20" maxIdle="10" maxWait="-1"/> 
+  <!--  Conexion de oracle produccion -->
+      <Resource name="jdbc/orabiz" auth="Container"
+		       type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"
+		       url="jdbc:oracle:thin:@172.20.5.103:1521:orclind"
+		       username="bi" password="bi" maxActive="20" maxIdle="10"
+		       maxWait="-1"/>  
+     
       
- -->         
+       <!--  Conexion de oracle desarrollo 
       <Resource name="jdbc/loginexternal" auth="Container"
               type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"
               url="jdbc:oracle:thin:@localhost:1521:xe"
+              username="bi" password="bi" maxActive="20" maxIdle="10"
+              maxWait="-1"/>     -->
+              
+       <!--  Conexion de oracle desarrollo -->
+      <Resource name="jdbc/loginexternal" auth="Container"
+              type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"
+              url="jdbc:oracle:thin:@172.20.5.103:1521:orclind"
               username="bi" password="bi" maxActive="20" maxIdle="10"
               maxWait="-1"/>     
         

@@ -1,5 +1,5 @@
 	/*
-	 *  Copyright (C) 2011  ANDRES DOMINGUEZ, CHRISTIAN DÃ�AZ
+	 *  Copyright (C) 2011  MAURICIO ALBANESE
 	
 	    Este programa es software libre: usted puede redistribuirlo y/o modificarlo 
 	    bajo los tÃ©rminos de la Licencia PÃºblica General GNU publicada 

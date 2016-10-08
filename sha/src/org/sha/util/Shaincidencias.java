@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2011  ANDRES DOMINGUEZ
+ *  Copyright (C) 2011  MAURICIO ALBANESE
 
     Este programa es software libre: usted puede redistribuirlo y/o modificarlo 
     bajo los terminos de la Licencia Pública General GNU publicada 
@@ -126,16 +126,18 @@ public void init() {
 	/**
 	 * 
 	 */
-	private String ci = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ci"); //Usuario logeado
-	private String centop = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("centop"); //Usuario logeado
+	private String ci = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ci"); //Variable de sesion
+	private String centop = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("centop"); //Variable de sesion
 	private String nombre = "";
 	private String cargo = "";
 	private String genero = "";
 	private String turno = "";
 	private String area = "";
-	private String tipoin = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tipoin"); //Usuario logeado
-	private String tipoac = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tipoac"); //Usuario logeado
-	private String tipole = "";
+	private String reportado = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("reportado"); //Variable de sesion
+	private String razon = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("razon"); //Variable de sesion
+	private String tipoin = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tipoin"); //Variable de sesion
+	private String tipoac = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tipoac"); //Variable de sesion
+	private String tipole = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tipole"); //Variable de sesion
 	private String cuerpo = "";
 	private String hechos = "";
 	private String inpsasel = "";
@@ -165,12 +167,73 @@ public void init() {
 	private String zdepartamento = "";
 	private String zdessuc = "";
 	private String zcendessuc = "";
+	private String zreportado = "";
+	private String zdescreportado = "";
+	private String zrazon = "";
+	private String zdescrazon = "";
+	private String zdesctipole = "";
 	private Object filterValue = "";
 	private List<Shaincidencias> list = new ArrayList<Shaincidencias>();
 	private int validarOperacion = 0;
 	PntGenerica consulta = new PntGenerica();
 	String[][] tabla;
 
+
+	public String getZdesctipole() {
+		return zdesctipole;
+	}
+
+	public void setZdesctipole(String zdesctipole) {
+		this.zdesctipole = zdesctipole;
+	}
+
+	public String getRazon() {
+		return razon;
+	}
+
+	public void setRazon(String razon) {
+		this.razon = razon;
+	}
+
+	public String getZrazon() {
+		return zrazon;
+	}
+
+	public void setZrazon(String zrazon) {
+		this.zrazon = zrazon;
+	}
+
+	public String getZdescrazon() {
+		return zdescrazon;
+	}
+
+	public void setZdescrazon(String zdescrazon) {
+		this.zdescrazon = zdescrazon;
+	}
+
+	public String getReportado() {
+		return reportado;
+	}
+
+	public void setReportado(String reportado) {
+		this.reportado = reportado;
+	}
+
+	public String getZreportado() {
+		return zreportado;
+	}
+
+	public void setZreportado(String zreportado) {
+		this.zreportado = zreportado;
+	}
+
+	public String getZdescreportado() {
+		return zdescreportado;
+	}
+
+	public void setZdescreportado(String zdescreportado) {
+		this.zdescreportado = zdescreportado;
+	}
 
 	public String getZdessuc() {
 		return zdessuc;
@@ -557,11 +620,38 @@ public void insert() throws  NamingException {
  		if(centop==""){
  			centop = " - ";
  		}  
+ 		if(reportado==null){
+ 			reportado = " - ";
+ 		}
+ 		if(reportado==""){
+ 			reportado = " - ";
+ 		}  
+ 		if(razon==null){
+ 			razon = " - ";
+ 		}
+ 		if(razon==""){
+ 			razon = " - ";
+ 		}  
+ 		if(tipole==null){
+ 			tipole = " - ";
+ 		}
+ 		if(tipole==""){
+ 			tipole = " - ";
+ 		}  
+ 		
+        String[] veclesion = tipole.split("\\ - ", -1);
+        String[] vecrazon = razon.split("\\ - ", -1);
+        String[] vecreport = reportado.split("\\ - ", -1);
         String[] veccentop = centop.split("\\ - ", -1);
         String[] vecztres = ztres.split("\\ - ", -1);
         String[] vectipoac = tipoac.split("\\ - ", -1);
         String[] vecincap = tipoin.split("\\ - ", -1);
                 
+    	/////////////////////////////////////////////////////////////////////////////////////////////////
+    	// ESTOS CONDICIONADORES PARA LAS FECHAS PERMITEN EL ALMACENAMIENTO DE LA HORA:MINUTO		   //
+    	// PARA LA INSERSION EN LA BD ADICIONAL A LA FECHA NORMAL DD/MM/YYYY.                          //
+    	/////////////////////////////////////////////////////////////////////////////////////////////////
+        
  		String vlfecha;
  		java.text.SimpleDateFormat sdfecha_es = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", locale );
     	java.text.SimpleDateFormat sdfecha_en = new java.text.SimpleDateFormat("dd/MMM/yyyy HH:mm", locale );
@@ -573,8 +663,26 @@ public void insert() throws  NamingException {
     		vlfecha = sdfecha_en.format(fevento);
     		to_date = "to_date('" + vlfecha + "', 'dd/mon/yyyy hh24:mi')";
     	}
+    	
+    	/////////////////////////////////////////////////////////////////////////////////////////////////
+    	// ESTOS 2 CONDICIONADORES IF'S ESTAN CON EL PROPOSITO DE DARLE CONSISTENCIA AL TBRESULT       //
+    	// AL MOMENTO DE HACER EL SELECT DEBIDO A LA MAGNITUD DE LAS TABLAS Y SIMPLIFICAR LA SELECCION //
+    	// EVITANDO QUE SE GUARDE UN VALOR NULO EN LA BD Y ADMINISTRANDO UN VALOR QUE ES INVISIBLE     //
+    	// PARA EL USUARIO.                                                                            //
+    	/////////////////////////////////////////////////////////////////////////////////////////////////
+    	
+    	//System.out.println(vecreport[0]);
+    	//System.out.println(vecreport[0].equals("1"));
+    	if(vecreport[0].equals("1")){
+    		//System.out.println("entre al if de razon");
+    		vecrazon[0] = "0";
+ 		}  
+    	if(vecreport[0].equals("2")){
+    		//System.out.println("entre al if de inpsasel");
+    		inpsasel = "NO REPORTADO";
+ 		} 
         
-        String query = "INSERT INTO SHAINCIDENCIAS VALUES (?,?,?,?," + to_date + ",?,?,?,?,?,?,?,?,?,'" + getFecha() + "',?,'" + getFecha() + "',NULL,?)";
+        String query = "INSERT INTO SHAINCIDENCIAS VALUES (?,?,?,?," + to_date + ",?,?,?,?,?,?,?,?,?,'" + getFecha() + "',?,'" + getFecha() + "',NULL,?,?,?)";
         pstmt = con.prepareStatement(query);
         pstmt.setString(1, ci.toUpperCase());
         pstmt.setString(2, zuno.toUpperCase());
@@ -584,13 +692,15 @@ public void insert() throws  NamingException {
         pstmt.setString(6, area.toUpperCase());
         pstmt.setString(7, vecincap[0].toUpperCase());
         pstmt.setString(8, vectipoac[0].toUpperCase());
-        pstmt.setString(9, tipole.toUpperCase());
+        pstmt.setString(9, veclesion[0].toUpperCase());
         pstmt.setString(10, cuerpo.toUpperCase());
         pstmt.setString(11, hechos.toUpperCase());
         pstmt.setString(12, inpsasel.toUpperCase());
         pstmt.setString(13, login);
         pstmt.setString(14, login);  
         pstmt.setString(15, veccentop[0].toUpperCase());
+        pstmt.setString(16, vecreport[0].toUpperCase());
+        pstmt.setString(17, vecrazon[0].toUpperCase());
         
         //System.out.println(query);
         //System.out.println("ci: " + ci);
@@ -600,13 +710,15 @@ public void insert() throws  NamingException {
         //System.out.println("fecha: " + to_date);
         //System.out.println("turno: " + turno);
         //System.out.println("area: " + area);
-        //System.out.println("tipoin: " + tipoin);
-        //System.out.println("tipoac: " + tipoac);
-        //System.out.println("tipole: " + tipole);
+        //System.out.println("tipoin: " + vecincap[0]);
+        //System.out.println("tipoac: " + vectipoac[0]);
+        //System.out.println("tipole: " + vectipole[0]);
         //System.out.println("cuerpo: " + cuerpo);
         //System.out.println("hechos: " + hechos);
         //System.out.println("inpsasel: " + inpsasel);
         //System.out.println("centro operativo: " + veccentop[0]);
+        //System.out.println("reportada: " + vecreport[0]);
+        //System.out.println("razon: " + vecrazon[0]);
 
         try {
             //Avisando
@@ -711,9 +823,49 @@ public void update() throws  NamingException {
  		if(centop==""){
  			centop = " - ";
  		}  
+ 		if(reportado==null){
+ 			reportado = " - ";
+ 		}
+ 		if(reportado==""){
+ 			reportado = " - ";
+ 		}  
+ 		if(razon==null){
+ 			razon = " - ";
+ 		}
+ 		if(razon==""){
+ 			razon = " - ";
+ 		}  
+ 		if(tipole==null){
+ 			tipole = " - ";
+ 		}
+ 		if(tipole==""){
+ 			tipole = " - ";
+ 		}  
+ 		
+        String[] veclesion = tipole.split("\\ - ", -1);
+        String[] vecrazon = razon.split("\\ - ", -1);
+        String[] vecreport = reportado.split("\\ - ", -1);
         String[] veccentop = centop.split("\\ - ", -1);
         String[] vectipoac = tipoac.split("\\ - ", -1);
         String[] vecincap = tipoin.split("\\ - ", -1);
+        
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		// ESTOS 2 CONDICIONADORES IF'S ESTAN CON EL PROPOSITO DE DARLE CONSISTENCIA AL TBRESULT       //
+		// AL MOMENTO DE HACER EL SELECT DEBIDO A LA MAGNITUD DE LAS TABLAS Y SIMPLIFICAR LA SELECCION //
+		// EVITANDO QUE SE GUARDE UN VALOR NULO EN LA BD Y ADMINISTRANDO UN VALOR QUE ES INVISIBLE     //
+		// PARA EL USUARIO.                                                                            //
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		//System.out.println(vecreport[0]);
+		//System.out.println(vecreport[0].equals("1"));
+		if(vecreport[0].equals("1")){
+		//System.out.println("entre al if de razon");
+		vecrazon[0] = "0";
+		}  
+		if(vecreport[0].equals("2")){
+		//System.out.println("entre al if de inpsasel");
+		inpsasel = "NO REPORTADO";
+		} 
     	
         String query = "UPDATE SHAINCIDENCIAS A";
          query += " SET A.FECHA = " + to_date + ", ";
@@ -724,10 +876,12 @@ public void update() throws  NamingException {
          query += " A.TIPOLES = ?,";
          query += " A.UBILES = ?,";
          query += " A.DESCHEC = ?,";
+         query += " A.REPORTADO = ?,";
          query += " A.INPSASEL = ?,";
+         query += " A.RAZON = ?,";
          query += " USRACT = ?,";
-         query += " FECACT = '" + getFecha() + "'";
-         query += " CENTOP = ?,";
+         query += " FECACT = '" + getFecha() + "',";
+         query += " CENTOP = ?";
          query += " WHERE A.REGIST = ? ";
 
         pstmt = con.prepareStatement(query);
@@ -735,24 +889,28 @@ public void update() throws  NamingException {
         pstmt.setString(2, area.toUpperCase());
         pstmt.setString(3, vecincap[0].toUpperCase());
         pstmt.setString(4, vectipoac[0].toUpperCase());
-        pstmt.setString(5, tipole.toUpperCase());
+        pstmt.setString(5, veclesion[0].toUpperCase());
         pstmt.setString(6, cuerpo.toUpperCase());
         pstmt.setString(7, hechos.toUpperCase());
-        pstmt.setString(8, inpsasel.toUpperCase());
-        pstmt.setString(9, login);   
-        pstmt.setString(10, veccentop[0].toUpperCase());
-        pstmt.setInt(11,Integer.parseInt(regist));
+        pstmt.setString(8, vecreport[0].toUpperCase());
+        pstmt.setString(9, inpsasel.toUpperCase());
+        pstmt.setString(10, vecrazon[0].toUpperCase());
+        pstmt.setString(11, login);   
+        pstmt.setString(12, veccentop[0].toUpperCase());
+        pstmt.setInt(13,Integer.parseInt(regist));
 
         //System.out.println(query);
         //System.out.println("fecha: " + to_date);
         //System.out.println("turno: " + turno);
         //System.out.println("area: " + area);
-        //System.out.println("tipoin: " + tipoin);
-        //System.out.println("tipoac: " + tipoac);
-        //System.out.println("tipole: " + tipole);
+        //System.out.println("tipoin: " + vecincap[0]);
+        //System.out.println("tipoac: " + vectipoac[0]);
+        //System.out.println("tipole: " + veclesion[0]);
         //System.out.println("cuerpo: " + cuerpo);
         //System.out.println("hechos: " + hechos);
+        //System.out.println("reportado: " + vecreport[0]);
         //System.out.println("inpsasel: " + inpsasel);
+        //System.out.println("razon: " + vecrazon[0]);
         //System.out.println("centro operativo: " + veccentop[0]);
         //System.out.println("registro: " + regist);
         
@@ -764,8 +922,8 @@ public void update() throws  NamingException {
             	msj = new FacesMessage(FacesMessage.SEVERITY_ERROR, getMessage("msnNoUpdate"), "");
             } else {
             	msj = new FacesMessage(FacesMessage.SEVERITY_INFO,  getMessage("msnUpdate"), "");
+            	limpiarValores();
             }
-            limpiarValores();
         } catch (SQLException e) {
         	msj = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), "");
         }
@@ -830,29 +988,61 @@ public void update() throws  NamingException {
 	 		if(centop==""){
 	 			centop = " - ";
 	 		}  
+	 		if(reportado==null){
+	 			reportado = " - ";
+	 		}
+	 		if(reportado==""){
+	 			reportado = " - ";
+	 		}  
+	 		if(razon==null){
+	 			razon = " - ";
+	 		}
+	 		if(razon==""){
+	 			razon = " - ";
+	 		}  
+	 		if(tipole==null){
+	 			tipole = " - ";
+	 		}
+	 		if(tipole==""){
+	 			tipole = " - ";
+	 		}  
+	 		
+	        String[] veclesion = tipole.split("\\ - ", -1);
+	        String[] vecrazon = razon.split("\\ - ", -1);
+	        String[] vecreport = reportado.split("\\ - ", -1);
 	        String[] veccentop = centop.split("\\ - ", -1);
 	        String[] vectipoac = tipoac.split("\\ - ", -1);
 	        String[] vecincap = tipoin.split("\\ - ", -1);
 		
 	 if (tabla[0][0].equals(validar)) { 
-		//ESTE ES EL SELECT DE LOS USUARIOS ADMINISTRADORES
+	     
+		    /////////////////////////////////////////////////////////////////////////////////////////////////
+	      	// ESTE ES EL SELECT DE LOS USUARIOS ADMINISTRADORES.                                          //
+	      	/////////////////////////////////////////////////////////////////////////////////////////////////
+
 		//System.out.println("Entre al IF");
 		//Consulta paginada
      String query = "SELECT * FROM"; 
 	    query += "(select query.*, rownum as rn from";
-		query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC||' - '||D.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC";
-	    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D, SHASUCURSAL F";
+		query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC||' - '||D.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR AS DESCREPORT, A.RAZON, H.DESCR AS DESCRAZON, I.DESCR AS DESCLESION";
+	    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D, SHASUCURSAL F, SHAINCREPORTADAS G, SHARAZON H, SHALESION I";
 	    query += " WHERE A.TIPOINCAP = B.CODIGO";
 	    query += " AND A.TIPOACC = C.CODIGO";
 	    query += " AND A.CARGO = D.CODCAR";
 	    query += " AND A.CI = D.TIPDOC||' - '||D.CEDULA";
 	    query += " AND A.CENTOP = TO_CHAR(F.CODSUC)";
-	    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||D.CODSUC||D.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR like '%" + ((String) filterValue).toUpperCase() + "%'";
+	    query += " AND A.REPORTADO = G.CODIGO";
+	    query += " AND A.RAZON = H.CODIGO";
+	    query += " AND A.TIPOLES = I.CODIGO";
+	    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||D.CODSUC||D.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR||A.REPORTADO||G.DESCR||A.RAZON||H.DESCR||I.DESCR like '%" + ((String) filterValue).toUpperCase() + "%'";
 	    query += " AND A.CI LIKE '" + ci.toUpperCase() + "%'";
 	    query += " AND A.TIPOINCAP LIKE '" + vecincap[0] + "%'";
 	    query += " AND A.TIPOACC LIKE '" + vectipoac[0] + "%'";
 	    query += " AND A.CENTOP LIKE '" + veccentop[0] + "%'";
-	    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC, D.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC";
+	    query += " AND A.REPORTADO LIKE '" + vecreport[0].toUpperCase() + "%'";
+	    query += " AND A.RAZON LIKE '" + vecrazon[0].toUpperCase() + "%'";
+	    query += " AND A.TIPOLES LIKE '" + veclesion[0].toUpperCase() + "%'";
+	    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC, D.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR, A.RAZON, H.DESCR, I.DESCR";
 	    query += ")query ) " ;
 	    query += " WHERE ROWNUM <="+pageSize;
 	    query += " AND rn > ("+ first +")";
@@ -888,6 +1078,11 @@ public void update() throws  NamingException {
  	select.setZcentop(r.getString(22));
  	select.setZdessuc(r.getString(23));
  	select.setZcendessuc(r.getString(22)+ " - " + r.getString(23));
+ 	select.setZreportado(r.getString(24));
+ 	select.setZdescreportado(r.getString(24)+ " - " + r.getString(25));
+ 	select.setZrazon(r.getString(26));
+ 	select.setZdescrazon(r.getString(26)+ " - " + r.getString(27));
+ 	select.setZdesctipole(r.getString(10)+ " - " + r.getString(28));
 
    	
     	//Agrega la lista
@@ -895,25 +1090,36 @@ public void update() throws  NamingException {
     }
 	}
 	 
-	 else { //ESTE ES EL SELECT DE LOS USUARIOS REGULARES
+	 else { 
+		 
+		    /////////////////////////////////////////////////////////////////////////////////////////////////
+	      	// ESTE ES EL SELECT DE LOS USUARIOS REGULARES      .                                          //
+	      	/////////////////////////////////////////////////////////////////////////////////////////////////
+		 
 		 	//System.out.println("Entre al ELSE");
 			//Consulta paginada
 	     String query = "SELECT * FROM"; 
 		    query += "(select query.*, rownum as rn from";
-			query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, F.CODSUC||' - '||F.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC";
-		    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D, SHABVT002 E, SHASUCURSAL F";
+			query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, F.CODSUC||' - '||F.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR AS DESCREPORT, A.RAZON, H.DESCR AS DESCRAZON, I.DESCR AS DESCLESION";
+		    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D, SHABVT002 E, SHASUCURSAL F, SHAINCREPORTADAS G, SHARAZON H, SHALESION I";
 		    query += " WHERE A.TIPOINCAP = B.CODIGO";
 		    query += " AND A.TIPOACC = C.CODIGO";
 		    query += " AND A.CARGO = D.CODCAR";
 		    query += " AND A.CENTOP = F.CODSUC";
+		    query += " AND A.REPORTADO = G.CODIGO";
+		    query += " AND A.RAZON = H.CODIGO";
+		    query += " AND A.TIPOLES = I.CODIGO";
 			query += " AND E.SUCURSAL = TO_CHAR(F.CODSUC)";
 		    query += " AND A.CI = D.TIPDOC||' - '||D.CEDULA";
-		    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||F.CODSUC||F.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR like '%" + ((String) filterValue).toUpperCase() + "%'";
+		    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||F.CODSUC||F.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR||A.REPORTADO||G.DESCR||A.RAZON||H.DESCR||I.DESCR like '%" + ((String) filterValue).toUpperCase() + "%'";
 		    query += " AND A.CI LIKE '" + ci.toUpperCase() + "%'";
 		    query += " AND A.TIPOINCAP LIKE '" + vecincap[0] + "%'";
 		    query += " AND A.TIPOACC LIKE '" + vectipoac[0] + "%'";
 		    query += " AND A.CENTOP LIKE '" + veccentop[0] + "%'";
-		    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, F.CODSUC, F.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC";
+		    query += " AND A.REPORTADO LIKE '" + vecreport[0].toUpperCase() + "%'";
+		    query += " AND A.RAZON LIKE '" + vecrazon[0].toUpperCase() + "%'";
+		    query += " AND A.TIPOLES LIKE '" + veclesion[0].toUpperCase() + "%'";
+		    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, F.CODSUC, F.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR, A.RAZON, H.DESCR, I.DESCR";
 		    query += ")query ) " ;
 		    query += " WHERE ROWNUM <="+pageSize;
 		    query += " AND rn > ("+ first +")";
@@ -949,6 +1155,11 @@ public void update() throws  NamingException {
 	 	select.setZcentop(r.getString(22));
 	 	select.setZdessuc(r.getString(23));
 	 	select.setZcendessuc(r.getString(22)+ " - " + r.getString(23));
+	 	select.setZreportado(r.getString(24));
+	 	select.setZdescreportado(r.getString(24)+ " - " + r.getString(25));
+	 	select.setZrazon(r.getString(26));
+	 	select.setZdescrazon(r.getString(26)+ " - " + r.getString(27));
+	 	select.setZdesctipole(r.getString(10)+ " - " + r.getString(28));
 
 	   	
 	    	//Agrega la lista
@@ -1012,7 +1223,11 @@ public void update() throws  NamingException {
             String[] vecincap = tipoin.split("\\ - ", -1);
       		
             if (tabla[0][0].equals(validar)) { 
-        		//ESTE ES EL COUNTER DE LOS USUARIOS ADMINISTRADORES
+        		
+    		    /////////////////////////////////////////////////////////////////////////////////////////////////
+    	      	// ESTE ES EL COUNTER DE LOS USUARIOS ADMINISTRADORES.                                         //
+    	      	/////////////////////////////////////////////////////////////////////////////////////////////////
+            	
         		//System.out.println("Entre al IF");
      		//Consulta paginada
      		String query = "SELECT COUNT_SHAINCIDENCIAS('" + ((String) filterValue).toUpperCase() + "','" + ci.toUpperCase() + "','" + vecincap[0].toUpperCase() + "','" + vectipoac[0].toUpperCase() + "','" + veccentop[0].toUpperCase() + "') FROM DUAL";
@@ -1030,7 +1245,11 @@ public void update() throws  NamingException {
            }
            }
             else {
-            	//ESTE ES EL COUNTER DE LOS USUARIOS REGULARES
+            	
+    		    /////////////////////////////////////////////////////////////////////////////////////////////////
+    	      	// ESTE ES EL COUNTER DE LOS USUARIOS REGULARES.                                               //
+    	      	/////////////////////////////////////////////////////////////////////////////////////////////////
+            	
     		 	//System.out.println("Entre al ELSE");
     		 	//Consulta paginada
          		String query = "SELECT COUNT_SHAINCIDENCIAS2('" + ((String) filterValue).toUpperCase() + "','" + ci.toUpperCase() + "','" + vecincap[0].toUpperCase() + "','" + vectipoac[0].toUpperCase() + "','" + veccentop[0].toUpperCase() + "') FROM DUAL";
@@ -1070,6 +1289,7 @@ public void update() throws  NamingException {
 		// TODO Auto-generated method stub
   		ci = "";
   		nombre = "";
+  		centop = "";
   		cargo = "";
   		genero = "";
   		zuno = "";
@@ -1083,7 +1303,9 @@ public void update() throws  NamingException {
   		tipole = "";
   		cuerpo = "";
   		hechos = "";
+  		reportado = "";
   		inpsasel = "";
+  		razon = "";
   		validarOperacion = 0;
 	}
   	
@@ -1093,6 +1315,9 @@ public void update() throws  NamingException {
   		centop = null;
   		tipoin = null;
   		tipoac = null;
+  		tipole = null;
+  		reportado = null;
+  		razon = null;
     }    
    	
   	  public void onselectCi() {
@@ -1100,13 +1325,26 @@ public void update() throws  NamingException {
           	ci = " - ";
           }  
 
-			//Consulta que hace la seleccion automatica para los inputtext de los empelados, valores nombre completo, genero, cargo!!!
-          
-   	     String query = "SELECT NOMBRE1||' '||NOMBRE2||' '||APELLIDO1||' '||APELLIDO2 AS NOMBRE, SEXO, CODCAR||' - '||DESCAR AS CARGO";
+      	/////////////////////////////////////////////////////////////////////////////////////////////////
+      	// CONSULTA QUE HACE LA SELECCION AUTOMATICA PARA LOS INPUTTEXT DE LOS EMPLEADOS, RETORNANDO   //
+      	// LOS VALORES DE  NOMBRE, GENERO Y CARGO DE CADA UNO QUE NO SEA NOMINA CONFIDENCIAL, A LOS DE //
+      	// DICHA NOMINA LE RETORNA VALORES PREDEFINIDOS DEBIDO AL ESQUEMA DE ALMACEN DE DATA           //
+      	// CONFIDENCIAL QUE MANEJA BAAN EN SU BD.                                                      //
+      	/////////////////////////////////////////////////////////////////////////////////////////////////
+
+   	     String query = " SELECT TRIM(T$NOM1$O)||' '||TRIM(T$NOM2$O)||' '||TRIM(T$APE1$O)||' '||TRIM(T$APE2$O) AS NOMBRE, 'CONFIDENCIAL' AS SEXO,'0A1 - CONFIDENCIAL' AS CARGO";
+ 	  		    query += " FROM ttfinn911100@baan_oracle A";
+ 	  		    query += " WHERE A.T$TIPO$O = 2";
+ 	  		    query += " AND 'C - '||TRIM(A.T$CEDU$O) LIKE '" + ci.toUpperCase() + "%'";
+ 	  		    query += " GROUP BY T$NOM1$O, T$NOM2$O, T$APE1$O, T$APE2$O";
+ 	  		    query += " UNION ALL";
+ 	  		    query += " SELECT NOMBRE1||' '||NOMBRE2||' '||APELLIDO1||' '||APELLIDO2 AS NOMBRE, SEXO, CODCAR||' - '||DESCAR AS CARGO";
  	  		    query += " FROM NM_TRABAJADOR@INFOCENT_CALENDARIO";
  	  		    query += " WHERE TIPDOC||' - '||CEDULA like '" + ci.toUpperCase() + "%'";
+ 	  		    query += " AND FECRET IS NULL";
+ 	  		    query += " OR FECRET > SYSDATE";
  	  		    query += " GROUP BY NOMBRE1, NOMBRE2, APELLIDO1, APELLIDO2, SEXO, CODCAR, DESCAR";
- 	  		    query += " ORDER BY NOMBRE1, NOMBRE2, APELLIDO1, APELLIDO2";
+ 	  		    query += " ORDER BY NOMBRE";
  	  		    
       		 PntGenerica select = new PntGenerica();
                try {
@@ -1127,5 +1365,5 @@ public void update() throws  NamingException {
                //System.out.println("zuno:" + zdos);
                //System.out.println("zuno:" + ztres);
        	}
-       
+      	  
 }
