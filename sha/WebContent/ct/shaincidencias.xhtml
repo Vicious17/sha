@@ -62,6 +62,7 @@
        <f:actionListener binding="#{bd.setReportado('')}"/> 
        <f:actionListener binding="#{bd.setRazon('')}"/> 
        <f:actionListener binding="#{bd.setTipole('')}"/> 
+       <f:actionListener binding="#{bd.setTurno('')}"/> 
        </p:commandButton>                     
      </div>
      
@@ -204,10 +205,12 @@
 	            <p:tooltip for="fevento" value="#{msg.shaincidenciasfe}" />
 	            <p:spacer height="1"/> 
 	            <p:message for="fevento"/>
-	            <p:inputText id="turno" styleClass="spacing" maxlength="50" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" value="#{shaincidencias.turno}"/>
-			    <p:watermark for="turno" value="#{msg.shaincidenciastu}" />
-			    <p:spacer height="1"/>
-			    <p:message for="turno"/>	
+	            <p:autoComplete id="turno" styleClass="spacing2" value="#{shaincidencias.turno}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeTurno}"  valueChangeListener="#{bd.setTurno(shaincidencias.turno)}" dropdown="true" scrollHeight="250">
+			    <p:ajax event="itemSelect" update="tbResult" listener="#{bd.setTurno(shaincidencias.turno)}" />	     
+				</p:autoComplete> 
+				<p:watermark for="turno" value="#{msg.shaincidenciastu}"  />
+				<p:spacer height="1"/> 
+				<p:message for="turno"/>  
 	    </div>
 		 <div class="col-lg-3 col-md-2 col-sm-2">     			
 				<p:autoComplete id="centop" styleClass="spacing2" value="#{shaincidencias.centop}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeCentop}"  valueChangeListener="#{bd.setCentop(shaincidencias.centop)}" dropdown="true" scrollHeight="250">
@@ -335,7 +338,7 @@
             
             <p:column width="60" >  
             <f:facet name="header">#{msg.bvt001TbEnviar}</f:facet>   
-             <p:commandLink styleClass="edit" onclick="enviar('#{tb.zci}','#{tb.zuno}','#{tb.zdos}','#{tb.ztres}','#{tb.zfevento}','#{tb.zturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zcuerpo}','#{tb.zhechos}','#{tb.zdescreportado}','#{tb.zinpsasel}','#{tb.zdescrazon}','#{tb.zregist}','1'); PF('panelwv').toggle();" 
+             <p:commandLink styleClass="edit" onclick="enviar('#{tb.zci}','#{tb.zuno}','#{tb.zdos}','#{tb.ztres}','#{tb.zfevento}','#{tb.zdescturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zcuerpo}','#{tb.zhechos}','#{tb.zdescreportado}','#{tb.zinpsasel}','#{tb.zdescrazon}','#{tb.zregist}','1'); PF('panelwv').toggle();" 
             title="Enviar"><i class="fa fa-pencil-square-o fa-2x text-info"></i></p:commandLink>
             </p:column> 
 			

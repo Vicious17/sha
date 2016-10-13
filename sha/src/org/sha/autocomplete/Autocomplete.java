@@ -252,6 +252,38 @@ public class Autocomplete extends Bd {
 	} 
 	
 	/**
+	 * Lista de TURNOS.
+	 * 
+	 * @throws NamingException
+	 * @return List String
+	 * @throws IOException
+	**/
+	
+	public List<String> completeTurno(String query) throws NamingException,IOException {
+				
+		List<String> results = new ArrayList<String>();
+
+		String querysb = " SELECT A.CODIGO||' - '||A.TURNO" 
+				       + " FROM SHATURNOS A"
+					   + " WHERE A.CODIGO || A.TURNO LIKE '%" + query.toUpperCase() + "%'"
+					   + " GROUP BY A.CODIGO, A.TURNO"
+					   + " ORDER BY A.CODIGO, A.TURNO";
+
+		//System.out.println(querysb);
+
+		consulta.selectPntGenerica(querysb,JNDI);
+
+		rows = consulta.getRows();
+
+		tabla = consulta.getArray();
+
+		for (int i = 0; i < rows; i++) {
+			results.add(tabla[i][0]);
+		}
+		return results;
+	} 
+	
+	/**
 	 * Lista de razones por las que no se reporto el incidente.
 	 * 
 	 * @throws NamingException

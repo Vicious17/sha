@@ -558,4 +558,20 @@ public class Bd  {
 	public void setTipole(String tipole){
 	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tipole", tipole);
 	}	
+	
+	/**
+	 * Setea tipo de valor de la meta para busqueda
+	 * @param next
+	 */
+	public void setTurno(String turno){
+	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("turno", turno);
+	}	
+	
+	/**
+	 * Setea tipo de valor de la meta para busqueda
+	 * @param next
+	 */
+	public void setCuerpo(String cuerpo){
+	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuerpo", cuerpo);
+	}	
 }

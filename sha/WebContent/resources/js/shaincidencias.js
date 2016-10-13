@@ -35,7 +35,7 @@
 		  document.getElementById("formshaincidencias:genero").value= rTrim(vT2);
 		  document.getElementById("formshaincidencias:cargo").value= rTrim(vT3);
 		  document.getElementById("formshaincidencias:fevento_input").value= rTrim(vT4);
-		  document.getElementById("formshaincidencias:turno").value= rTrim(vT5);
+		  document.getElementById("formshaincidencias:turno_input").value= rTrim(vT5);
 		  document.getElementById("formshaincidencias:centop_input").value= rTrim(vT6);
 		  document.getElementById("formshaincidencias:area").value= rTrim(vT7);
 		  document.getElementById("formshaincidencias:tipoin_input").value= rTrim(vT8);
