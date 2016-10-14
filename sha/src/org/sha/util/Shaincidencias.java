@@ -138,7 +138,7 @@ public void init() {
 	private String tipoin = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tipoin"); //Variable de sesion
 	private String tipoac = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tipoac"); //Variable de sesion
 	private String tipole = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tipole"); //Variable de sesion
-	private String cuerpo = "";
+	private String cuerpo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cuerpo"); //Variable de sesion
 	private String hechos = "";
 	private String inpsasel = "";
 	private String regist = "";	
@@ -173,12 +173,21 @@ public void init() {
 	private String zdescrazon = "";
 	private String zdesctipole = "";
 	private String zdescturno = "";
+	private String zdesccuerpo = "";
 	private Object filterValue = "";
 	private List<Shaincidencias> list = new ArrayList<Shaincidencias>();
 	private int validarOperacion = 0;
 	PntGenerica consulta = new PntGenerica();
 	String[][] tabla;
 
+
+	public String getZdesccuerpo() {
+		return zdesccuerpo;
+	}
+
+	public void setZdesccuerpo(String zdesccuerpo) {
+		this.zdesccuerpo = zdesccuerpo;
+	}
 
 	public String getZdescturno() {
 		return zdescturno;
@@ -653,7 +662,14 @@ public void insert() throws  NamingException {
  		if(turno==""){
  			turno = " - ";
  		}  
+ 		if(cuerpo==null){
+ 			cuerpo = " - ";
+ 		}
+ 		if(cuerpo==""){
+ 			cuerpo = " - ";
+ 		}  
  		
+        String[] veccuerpo = cuerpo.split("\\ - ", -1);
         String[] vecturno = turno.split("\\ - ", -1);
         String[] veclesion = tipole.split("\\ - ", -1);
         String[] vecrazon = razon.split("\\ - ", -1);
@@ -709,7 +725,7 @@ public void insert() throws  NamingException {
         pstmt.setString(7, vecincap[0].toUpperCase());
         pstmt.setString(8, vectipoac[0].toUpperCase());
         pstmt.setString(9, veclesion[0].toUpperCase());
-        pstmt.setString(10, cuerpo.toUpperCase());
+        pstmt.setString(10, veccuerpo[0].toUpperCase());
         pstmt.setString(11, hechos.toUpperCase());
         pstmt.setString(12, inpsasel.toUpperCase());
         pstmt.setString(13, login);
@@ -729,7 +745,7 @@ public void insert() throws  NamingException {
         //System.out.println("tipoin: " + vecincap[0]);
         //System.out.println("tipoac: " + vectipoac[0]);
         //System.out.println("tipole: " + vectipole[0]);
-        //System.out.println("cuerpo: " + cuerpo);
+        //System.out.println("cuerpo: " + veccuerpo[0]);
         //System.out.println("hechos: " + hechos);
         //System.out.println("inpsasel: " + inpsasel);
         //System.out.println("centro operativo: " + veccentop[0]);
@@ -863,7 +879,14 @@ public void update() throws  NamingException {
  		if(turno==""){
  			turno = " - ";
  		}  
+ 		if(cuerpo==null){
+ 			cuerpo = " - ";
+ 		}
+ 		if(cuerpo==""){
+ 			cuerpo = " - ";
+ 		}  
  		
+        String[] veccuerpo = cuerpo.split("\\ - ", -1);
         String[] vecturno = turno.split("\\ - ", -1);
         String[] veclesion = tipole.split("\\ - ", -1);
         String[] vecrazon = razon.split("\\ - ", -1);
@@ -913,7 +936,7 @@ public void update() throws  NamingException {
         pstmt.setString(3, vecincap[0].toUpperCase());
         pstmt.setString(4, vectipoac[0].toUpperCase());
         pstmt.setString(5, veclesion[0].toUpperCase());
-        pstmt.setString(6, cuerpo.toUpperCase());
+        pstmt.setString(6, veccuerpo[0].toUpperCase());
         pstmt.setString(7, hechos.toUpperCase());
         pstmt.setString(8, vecreport[0].toUpperCase());
         pstmt.setString(9, inpsasel.toUpperCase());
@@ -929,7 +952,7 @@ public void update() throws  NamingException {
         //System.out.println("tipoin: " + vecincap[0]);
         //System.out.println("tipoac: " + vectipoac[0]);
         //System.out.println("tipole: " + veclesion[0]);
-        //System.out.println("cuerpo: " + cuerpo);
+        //System.out.println("cuerpo: " + veccuerpo[0]);
         //System.out.println("hechos: " + hechos);
         //System.out.println("reportado: " + vecreport[0]);
         //System.out.println("inpsasel: " + inpsasel);
@@ -1035,7 +1058,14 @@ public void update() throws  NamingException {
 	 		if(turno==""){
 	 			turno = " - ";
 	 		}  
+	 		if(cuerpo==null){
+	 			cuerpo = " - ";
+	 		}
+	 		if(cuerpo==""){
+	 			cuerpo = " - ";
+	 		}  
 	 		
+	        String[] veccuerpo = cuerpo.split("\\ - ", -1);
 	        String[] vecturno = turno.split("\\ - ", -1);
 	        String[] veclesion = tipole.split("\\ - ", -1);
 	        String[] vecrazon = razon.split("\\ - ", -1);
@@ -1054,8 +1084,8 @@ public void update() throws  NamingException {
 		//Consulta paginada
      String query = "SELECT * FROM"; 
 	    query += "(select query.*, rownum as rn from";
-		query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC||' - '||D.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR AS DESCREPORT, A.RAZON, H.DESCR AS DESCRAZON, I.DESCR AS DESCLESION, J.TURNO AS DESCTURNO";
-	    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D, SHASUCURSAL F, SHAINCREPORTADAS G, SHARAZON H, SHALESION I, SHATURNOS J";
+		query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC||' - '||D.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR AS DESCREPORT, A.RAZON, H.DESCR AS DESCRAZON, I.DESCR AS DESCLESION, J.TURNO AS DESCTURNO, K.DESCR AS DESCCUERPO";
+	    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D, SHASUCURSAL F, SHAINCREPORTADAS G, SHARAZON H, SHALESION I, SHATURNOS J, SHACUERPO K";
 	    query += " WHERE A.TIPOINCAP = B.CODIGO";
 	    query += " AND A.TIPOACC = C.CODIGO";
 	    query += " AND A.CARGO = D.CODCAR";
@@ -1065,7 +1095,8 @@ public void update() throws  NamingException {
 	    query += " AND A.RAZON = H.CODIGO";
 	    query += " AND A.TIPOLES = I.CODIGO";
 	    query += " AND A.TURNO = J.CODIGO";
-	    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||D.CODSUC||D.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR||A.REPORTADO||G.DESCR||A.RAZON||H.DESCR||I.DESCR||J.TURNO like '%" + ((String) filterValue).toUpperCase() + "%'";
+	    query += " AND A.UBILES = K.CODIGO";
+	    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||D.CODSUC||D.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR||A.REPORTADO||G.DESCR||A.RAZON||H.DESCR||I.DESCR||J.TURNO||K.DESCR like '%" + ((String) filterValue).toUpperCase() + "%'";
 	    query += " AND A.CI LIKE '" + ci.toUpperCase() + "%'";
 	    query += " AND A.TIPOINCAP LIKE '" + vecincap[0] + "%'";
 	    query += " AND A.TIPOACC LIKE '" + vectipoac[0] + "%'";
@@ -1074,7 +1105,8 @@ public void update() throws  NamingException {
 	    query += " AND A.RAZON LIKE '" + vecrazon[0].toUpperCase() + "%'";
 	    query += " AND A.TIPOLES LIKE '" + veclesion[0].toUpperCase() + "%'";
 	    query += " AND A.TURNO LIKE '" + vecturno[0].toUpperCase() + "%'";
-	    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC, D.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR, A.RAZON, H.DESCR, I.DESCR, J.TURNO";
+	    query += " AND A.UBILES LIKE '" + veccuerpo[0].toUpperCase() + "%'";
+	    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, D.CODSUC, D.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR, A.RAZON, H.DESCR, I.DESCR, J.TURNO, K.DESCR";
 	    query += ")query ) " ;
 	    query += " WHERE ROWNUM <="+pageSize;
 	    query += " AND rn > ("+ first +")";
@@ -1116,6 +1148,7 @@ public void update() throws  NamingException {
  	select.setZdescrazon(r.getString(26)+ " - " + r.getString(27));
  	select.setZdesctipole(r.getString(10)+ " - " + r.getString(28));
  	select.setZdescturno(r.getString(6)+ " - " + r.getString(29));
+ 	select.setZdesccuerpo(r.getString(11)+ " - " + r.getString(30));
 
    	
     	//Agrega la lista
@@ -1133,8 +1166,8 @@ public void update() throws  NamingException {
 			//Consulta paginada
 	     String query = "SELECT * FROM"; 
 		    query += "(select query.*, rownum as rn from";
-			query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, F.CODSUC||' - '||F.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR AS DESCREPORT, A.RAZON, H.DESCR AS DESCRAZON, I.DESCR AS DESCLESION, J.TURNO AS DESCTURNO";
-		    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D, SHABVT002 E, SHASUCURSAL F, SHAINCREPORTADAS G, SHARAZON H, SHALESION I";
+			query += "(SELECT A.CI, A.NOMBRE, A.GENERO, A.CARGO, TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI'), A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, F.CODSUC||' - '||F.DESSUC AS SUCURSAL, D.CODDEP||' - '||D.DESDEP AS DEPARTAMENTO, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR AS DESCREPORT, A.RAZON, H.DESCR AS DESCRAZON, I.DESCR AS DESCLESION, J.TURNO AS DESCTURNO, K.DESCR AS DESCCUERPO";
+		    query += " FROM SHAINCIDENCIAS A, SHAINCAP B, SHATIPAC C, NM_TRABAJADOR@INFOCENT_CALENDARIO D, SHABVT002 E, SHASUCURSAL F, SHAINCREPORTADAS G, SHARAZON H, SHALESION I, SHATURNOS J, SHACUERPO K";
 		    query += " WHERE A.TIPOINCAP = B.CODIGO";
 		    query += " AND A.TIPOACC = C.CODIGO";
 		    query += " AND A.CARGO = D.CODCAR";
@@ -1143,9 +1176,10 @@ public void update() throws  NamingException {
 		    query += " AND A.RAZON = H.CODIGO";
 		    query += " AND A.TIPOLES = I.CODIGO";
 		    query += " AND A.TURNO = J.CODIGO";
+		    query += " AND A.UBILES = K.CODIGO";
 			query += " AND E.SUCURSAL = TO_CHAR(F.CODSUC)";
 		    query += " AND A.CI = D.TIPDOC||' - '||D.CEDULA";
-		    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||F.CODSUC||F.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR||A.REPORTADO||G.DESCR||A.RAZON||H.DESCR||I.DESCR||J.TURNO like '%" + ((String) filterValue).toUpperCase() + "%'";
+		    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||F.CODSUC||F.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR||A.REPORTADO||G.DESCR||A.RAZON||H.DESCR||I.DESCR||J.TURNO||K.DESCR like '%" + ((String) filterValue).toUpperCase() + "%'";
 		    query += " AND A.CI LIKE '" + ci.toUpperCase() + "%'";
 		    query += " AND A.TIPOINCAP LIKE '" + vecincap[0] + "%'";
 		    query += " AND A.TIPOACC LIKE '" + vectipoac[0] + "%'";
@@ -1153,7 +1187,9 @@ public void update() throws  NamingException {
 		    query += " AND A.REPORTADO LIKE '" + vecreport[0].toUpperCase() + "%'";
 		    query += " AND A.RAZON LIKE '" + vecrazon[0].toUpperCase() + "%'";
 		    query += " AND A.TIPOLES LIKE '" + veclesion[0].toUpperCase() + "%'";
-		    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, F.CODSUC, F.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR, A.RAZON, H.DESCR, I.DESCR, J.TURNO";
+		    query += " AND A.TURNO LIKE '" + vecturno[0].toUpperCase() + "%'";
+		    query += " AND A.UBILES LIKE '" + veccuerpo[0].toUpperCase() + "%'";
+		    query += " GROUP BY A.CI,A.NOMBRE, A.GENERO, A.CARGO, A.FECHA, A.TURNO, A.AREAEVENT, A.TIPOINCAP, A.TIPOACC, A.TIPOLES, A.UBILES, A.DESCHEC, A.INPSASEL, B.INCAP, C.DESCR, D.DESCIA, D.DESNOM, F.CODSUC, F.DESSUC, D.CODDEP, D.DESDEP, D.DESCAR, A.REGIST, A.CENTOP, F.DESSUC, A.REPORTADO, G.DESCR, A.RAZON, H.DESCR, I.DESCR, J.TURNO, K.DESCR";
 		    query += ")query ) " ;
 		    query += " WHERE ROWNUM <="+pageSize;
 		    query += " AND rn > ("+ first +")";
@@ -1195,6 +1231,7 @@ public void update() throws  NamingException {
 	 	select.setZdescrazon(r.getString(26)+ " - " + r.getString(27));
 	 	select.setZdesctipole(r.getString(10)+ " - " + r.getString(28));
 	 	select.setZdescturno(r.getString(6)+ " - " + r.getString(29));
+	 	select.setZdesccuerpo(r.getString(11)+ " - " + r.getString(30));
 
 	   	
 	    	//Agrega la lista
@@ -1354,6 +1391,7 @@ public void update() throws  NamingException {
   		reportado = null;
   		razon = null;
   		turno = null;
+  		cuerpo = null;
     }    
    	
   	  public void onselectCi() {

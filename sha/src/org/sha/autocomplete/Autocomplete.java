@@ -317,6 +317,38 @@ public class Autocomplete extends Bd {
 	} 
 	
 	/**
+	 * Lista de partes del cuerpo lesionadas.
+	 * 
+	 * @throws NamingException
+	 * @return List String
+	 * @throws IOException
+	**/
+	
+	public List<String> completeCuerpo(String query) throws NamingException,IOException {
+				
+		List<String> results = new ArrayList<String>();
+
+		String querysb = " SELECT A.CODIGO||' - '||A.DESCR" 
+				       + " FROM SHACUERPO A"
+					   + " WHERE A.CODIGO || A.DESCR LIKE '%" + query.toUpperCase() + "%'"
+					   + " GROUP BY A.CODIGO, A.DESCR"
+					   + " ORDER BY A.CODIGO, A.DESCR";
+
+		//System.out.println(querysb);
+
+		consulta.selectPntGenerica(querysb,JNDI);
+
+		rows = consulta.getRows();
+
+		tabla = consulta.getArray();
+
+		for (int i = 0; i < rows; i++) {
+			results.add(tabla[i][0]);
+		}
+		return results;
+	} 
+	
+	/**
 	 * Lista lesiones.
 	 * 
 	 * @throws NamingException

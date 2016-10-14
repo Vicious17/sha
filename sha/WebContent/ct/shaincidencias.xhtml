@@ -63,6 +63,7 @@
        <f:actionListener binding="#{bd.setRazon('')}"/> 
        <f:actionListener binding="#{bd.setTipole('')}"/> 
        <f:actionListener binding="#{bd.setTurno('')}"/> 
+       <f:actionListener binding="#{bd.setCuerpo('')}"/> 
        </p:commandButton>                     
      </div>
      
@@ -240,11 +241,13 @@
 				</p:autoComplete> 
 				<p:watermark for="tipole" value="#{msg.shaincidenciastl}"  />
 				<p:spacer height="1"/> 
-				<p:message for="tipole"/>			    
-			    <p:inputText id="cuerpo" styleClass="spacing" maxlength="50" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" value="#{shaincidencias.cuerpo}"/>
-			    <p:watermark for="cuerpo" value="#{msg.shaincidenciascu}" />
-			    <p:spacer height="1"/>
-			    <p:message for="cuerpo"/>	
+				<p:message for="tipole"/>	
+				<p:autoComplete id="cuerpo" styleClass="spacing" value="#{shaincidencias.cuerpo}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeCuerpo}"  valueChangeListener="#{bd.setCuerpo(shaincidencias.cuerpo)}" dropdown="true" scrollHeight="250">
+			    <p:ajax event="itemSelect" update="tbResult" listener="#{bd.setCuerpo(shaincidencias.cuerpo)}" />	     
+				</p:autoComplete> 
+				<p:watermark for="cuerpo" value="#{msg.shaincidenciascu}"  />
+				<p:spacer height="1"/> 
+				<p:message for="cuerpo"/>	
 	    </div>
 	    <div class="col-lg-3 col-md-2 col-sm-2">     			
 				<p:inputTextarea id="hechos" styleClass="spacingArea" autoResize="true" maxlength="2000" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" value="#{shaincidencias.hechos}" counter="display" counterTemplate="{0} caracteres restantes."/>
@@ -324,7 +327,7 @@
             <f:facet name="header">#{msg.Shaincidenciastbde}</f:facet>  
             <center>
             <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal"
-            onclick="detalle('#{tb.zturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zcuerpo}','#{tb.zhechos}');">
+            onclick="detalle('#{tb.zdescturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zdesccuerpo}','#{tb.zhechos}');">
             <i class="fa fa-search fa-2x"></i>
             </button>
             </center>
@@ -338,7 +341,7 @@
             
             <p:column width="60" >  
             <f:facet name="header">#{msg.bvt001TbEnviar}</f:facet>   
-             <p:commandLink styleClass="edit" onclick="enviar('#{tb.zci}','#{tb.zuno}','#{tb.zdos}','#{tb.ztres}','#{tb.zfevento}','#{tb.zdescturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zcuerpo}','#{tb.zhechos}','#{tb.zdescreportado}','#{tb.zinpsasel}','#{tb.zdescrazon}','#{tb.zregist}','1'); PF('panelwv').toggle();" 
+             <p:commandLink styleClass="edit" onclick="enviar('#{tb.zci}','#{tb.zuno}','#{tb.zdos}','#{tb.ztres}','#{tb.zfevento}','#{tb.zdescturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zdesccuerpo}','#{tb.zhechos}','#{tb.zdescreportado}','#{tb.zinpsasel}','#{tb.zdescrazon}','#{tb.zregist}','1'); PF('panelwv').toggle();" 
             title="Enviar"><i class="fa fa-pencil-square-o fa-2x text-info"></i></p:commandLink>
             </p:column> 
 			

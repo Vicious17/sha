@@ -41,7 +41,7 @@
 		  document.getElementById("formshaincidencias:tipoin_input").value= rTrim(vT8);
 		  document.getElementById("formshaincidencias:tipoac_input").value= rTrim(vT9);
 		  document.getElementById("formshaincidencias:tipole_input").value= rTrim(vT10);
-		  document.getElementById("formshaincidencias:cuerpo").value= rTrim(vT11);
+		  document.getElementById("formshaincidencias:cuerpo_input").value= rTrim(vT11);
 		  document.getElementById("formshaincidencias:hechos").value= rTrim(vT12);
 		  document.getElementById("formshaincidencias:reportado_input").value= rTrim(vT13);	
 		  document.getElementById("formshaincidencias:inpsasel").value= rTrim(vT14);
