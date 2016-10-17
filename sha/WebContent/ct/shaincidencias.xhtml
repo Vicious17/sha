@@ -64,6 +64,7 @@
        <f:actionListener binding="#{bd.setTipole('')}"/> 
        <f:actionListener binding="#{bd.setTurno('')}"/> 
        <f:actionListener binding="#{bd.setCuerpo('')}"/> 
+       <f:actionListener binding="#{bd.setSituacion('')}"/> 
        </p:commandButton>                     
      </div>
      
@@ -109,6 +110,8 @@
 		        <div class="panel-body" style="background-color:#ffe0b3;">    
 		        <p:panel id="panelDetalle" >
 		        <h:panelGrid columns="2" columnClasses="forty-percent top-alignment, sixty-percent top-alignment">
+		        <h:outputText value="#{msg.shasituacion}:"/>
+		        <span id="txt_det_15" class="detalleTarea"></span>
 		        <h:outputText value="#{msg.shainturno}:"/>
 		        <span id="txt_det_8" class="detalleTarea"></span>
 		        <h:outputText value="#{msg.Shauserstbsuc}:"/>
@@ -206,6 +209,12 @@
 	            <p:tooltip for="fevento" value="#{msg.shaincidenciasfe}" />
 	            <p:spacer height="1"/> 
 	            <p:message for="fevento"/>
+	            <p:autoComplete id="situacion" styleClass="spacing2" value="#{shaincidencias.situacion}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeSituacion}"  valueChangeListener="#{bd.setSituacion(shaincidencias.situacion)}" dropdown="true" scrollHeight="250">
+			    <p:ajax event="itemSelect" update="tbResult" listener="#{bd.setSituacion(shaincidencias.situacion)}" />	     
+				</p:autoComplete> 
+				<p:watermark for="situacion" value="#{msg.shametassitu}"  />
+				<p:spacer height="1"/> 
+				<p:message for="situacion"/>  
 	            <p:autoComplete id="turno" styleClass="spacing2" value="#{shaincidencias.turno}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeTurno}"  valueChangeListener="#{bd.setTurno(shaincidencias.turno)}" dropdown="true" scrollHeight="250">
 			    <p:ajax event="itemSelect" update="tbResult" listener="#{bd.setTurno(shaincidencias.turno)}" />	     
 				</p:autoComplete> 
@@ -327,7 +336,7 @@
             <f:facet name="header">#{msg.Shaincidenciastbde}</f:facet>  
             <center>
             <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal"
-            onclick="detalle('#{tb.zdescturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zdesccuerpo}','#{tb.zhechos}');">
+            onclick="detalle('#{tb.zdescsituacion}','#{tb.zdescturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zdesccuerpo}','#{tb.zhechos}');">
             <i class="fa fa-search fa-2x"></i>
             </button>
             </center>
@@ -341,7 +350,7 @@
             
             <p:column width="60" >  
             <f:facet name="header">#{msg.bvt001TbEnviar}</f:facet>   
-             <p:commandLink styleClass="edit" onclick="enviar('#{tb.zci}','#{tb.zuno}','#{tb.zdos}','#{tb.ztres}','#{tb.zfevento}','#{tb.zdescturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zdesccuerpo}','#{tb.zhechos}','#{tb.zdescreportado}','#{tb.zinpsasel}','#{tb.zdescrazon}','#{tb.zregist}','1'); PF('panelwv').toggle();" 
+             <p:commandLink styleClass="edit" onclick="enviar('#{tb.zci}','#{tb.zuno}','#{tb.zdos}','#{tb.ztres}','#{tb.zfevento}','#{tb.zdescsituacion}','#{tb.zdescturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zdesccuerpo}','#{tb.zhechos}','#{tb.zdescreportado}','#{tb.zinpsasel}','#{tb.zdescrazon}','#{tb.zregist}','1'); PF('panelwv').toggle();" 
             title="Enviar"><i class="fa fa-pencil-square-o fa-2x text-info"></i></p:commandLink>
             </p:column> 
 			

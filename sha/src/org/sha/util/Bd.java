@@ -574,4 +574,12 @@ public class Bd  {
 	public void setCuerpo(String cuerpo){
 	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuerpo", cuerpo);
 	}	
+	
+	/**
+	 * Setea tipo de valor de la situacion del empleado
+	 * @param next
+	 */
+	public void setSituacion(String situacion){
+	   	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("situacion", situacion);
+	}	
 }
