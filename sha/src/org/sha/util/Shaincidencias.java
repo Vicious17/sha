@@ -928,7 +928,7 @@ public void update() throws  NamingException {
  			situacion = " - ";
  		}  
  		
-        String[] vecsituacion = cuerpo.split("\\ - ", -1); 
+        String[] vecsituacion = situacion.split("\\ - ", -1); 
         String[] veccuerpo = cuerpo.split("\\ - ", -1);
         String[] vecturno = turno.split("\\ - ", -1);
         String[] veclesion = tipole.split("\\ - ", -1);
@@ -1168,7 +1168,7 @@ public void update() throws  NamingException {
 	    query += " ORDER BY  " + sortField.replace("z", "");
 
     pstmt = con.prepareStatement(query);
-    System.out.println(query);
+    //System.out.println(query);
 		
     r =  pstmt.executeQuery();
     
