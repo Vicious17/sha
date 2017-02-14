@@ -12,13 +12,10 @@
     <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  
-   <!-- Omnifaces quita extensión xhtml a páginas -->
   <context-param>
     <param-name>org.omnifaces.FACES_VIEWS_SCAN_PATHS</param-name>
     <param-value>/*.xhtml</param-value>
   </context-param>
-  
   <context-param>
     <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
     <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
@@ -44,68 +41,47 @@
   <listener>
     <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
   </listener>
-  
-  <!-- JNDI base datos -->
   <context-param>
     <param-name>JNDI_BD</param-name>
     <param-value>java:comp/env/jdbc/orabiz</param-value>
   </context-param>
-  
   <context-param>
     <param-name>JNDI_DESA</param-name>
     <param-value>java:comp/env/jdbc/oradesa</param-value>
   </context-param>
-  
   <context-param>
     <param-name>JNDI_BDSB</param-name>
     <param-value>java:comp/env/jdbc/sybase</param-value>
   </context-param>
-  
   <context-param>
     <param-name>JNDI_MAIL</param-name>
     <param-value>java:comp/env/mail/recibos</param-value>
   </context-param>
-
   <context-param>
     <param-name>JNDI_BD_EXTERNAL</param-name>
     <param-value>java:comp/env/jdbc/loginexternal</param-value>
   </context-param>
-  
-    <!-- Configuración de idioma de base de datos valores pueden ser es o en-->
-   <context-param>
+  <context-param>
     <param-name>SHA_BD_LANG</param-name>
     <param-value>en</param-value>
-  </context-param>  
-    
-   <!-- Número de hilos a usar -->
-   <context-param>
+  </context-param>
+  <context-param>
     <param-name>THREAD_NUMBER</param-name>
     <param-value>100</param-value>
   </context-param>
-  
-  <!-- Url LogOut -->
-   <context-param>
+  <context-param>
     <param-name>LOGOUT_URL</param-name>
     <param-value>/sha/login.xhtml</param-value>
   </context-param>
-  
-  
-  <!-- Configura si desea notificar cambios de versión -->
-   <context-param>
+  <context-param>
     <param-name>CHECK_UPDATE</param-name>
     <param-value>on</param-value>
   </context-param>
- 
-  
-   <!-- Tema primefaces -->
-   <context-param>
+  <context-param>
     <param-name>primefaces.THEME</param-name>
     <param-value>bootstrap</param-value>
   </context-param>
-
-  
-   <!-- Quartz -->
-     <servlet>
+  <servlet>
     <servlet-name>QuartzInitializer</servlet-name>
     <servlet-class>org.quartz.ee.servlet.QuartzInitializerServlet</servlet-class>
     <init-param>
@@ -123,8 +99,6 @@
     <filter-class>
    org.primefaces.webapp.filter.FileUploadFilter
  </filter-class>
- 
-  <!-- Upload -->
     <init-param>
       <param-name>thresholdSize</param-name>
       <param-value>51200</param-value>
@@ -134,15 +108,10 @@
     <filter-name>PrimeFaces FileUpload Filter</filter-name>
     <servlet-name>Faces Servlet</servlet-name>
   </filter-mapping>
-  
-  <!-- FontAwesome Primefaces -->
   <context-param>
     <param-name>primefaces.FONT_AWESOME</param-name>
     <param-value>true</param-value>
   </context-param>
-  
-  
-   <!-- Birt report, por eliminar ya que no se va a usar el runtime -->
   <context-param>
     <param-name>BIRT_VIEWER_LOCALE</param-name>
     <param-value>en-US</param-value>
@@ -283,4 +252,22 @@
       <taglib-location>/WEB-INF/tlds/birt.tld</taglib-location>
     </taglib>
   </jsp-config>
+  
+  <mime-mapping>
+      <extension>ttf</extension>
+      <mime-type>application/x-font-ttf</mime-type>
+   </mime-mapping>
+   <mime-mapping>
+      <extension>woff</extension>
+      <mime-type>application/x-font-woff</mime-type>
+   </mime-mapping>
+   <mime-mapping>
+      <extension>woff2</extension>
+      <mime-type>application/x-font-woff2</mime-type>
+   </mime-mapping>
+   <mime-mapping>
+      <extension>eot</extension>
+      <mime-type>application/x-font-eot</mime-type>
+   </mime-mapping>
+  
 </web-app>

@@ -588,7 +588,7 @@ import org.primefaces.model.SortOrder;
 	}
 
 	
-			/**
+		/**
 		 * @return the listSuc
 		 */
 		public Map<String, String> getListSuc() {
