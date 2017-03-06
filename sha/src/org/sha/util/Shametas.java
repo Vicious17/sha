@@ -43,7 +43,6 @@ import org.sha.util.PntGenerica;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -570,7 +569,7 @@ public void update() throws  NamingException {
 	    query += " WHERE A.SUCURSAL = B.CODSUC";
 	    query += " AND A.ANIO||A.MES||A.NUMTRABAJADOR||A.SUCURSAL||A.HEADCOUNT||A.PROMEDIO||A.REUNIONES||A.CUMPLIMIENTO||B.DESSUC  like '%" + ((String) filterValue).toUpperCase() + "%'";
 	    query += " AND A.SUCURSAL LIKE '" + vecsuc[0].toUpperCase() + "%'";
-	    query += " GROUP BY A.ANIO, A.MES, A.NUMTRABAJADOR, A.SUCURSAL, A.HEADCOUNT, A.PROMEDIO, A.REUNIONES, A.CUMPLIMIENTO, B.DESSUC ";
+	    //query += " GROUP BY A.ANIO, A.MES, A.NUMTRABAJADOR, A.SUCURSAL, A.HEADCOUNT, A.PROMEDIO, A.REUNIONES, A.CUMPLIMIENTO, B.DESSUC ";
 	    query += ")query ) " ;
 	    query += " WHERE ROWNUM <="+pageSize;
 	    query += " AND rn > ("+ first +")";

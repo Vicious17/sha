@@ -371,7 +371,7 @@ public void guardar() throws NamingException, SQLException{
 		query += "(SELECT A.CODIGO, A.DESCR";
 	    query += " FROM SHATIPAC A";
 	    query += " WHERE A.CODIGO || A.DESCR like '%" + ((String) filterValue).toUpperCase() + "%'";
-	    query += " GROUP BY A.CODIGO, A.DESCR";
+	    //query += " GROUP BY A.CODIGO, A.DESCR";
 	    query += ")query ) " ;
 	    query += " WHERE ROWNUM <="+pageSize;
 	    query += " AND rn > ("+ first +")";

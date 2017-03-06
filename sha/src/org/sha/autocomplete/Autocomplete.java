@@ -138,7 +138,7 @@ public class Autocomplete extends Bd {
 		String querysb = " SELECT A.CODIGO||' - '||A.ROL " 
 				       + " FROM SHATIPROL A"
 					   + " WHERE A.CODIGO || A.ROL LIKE '%" + query.toUpperCase() + "%'"
-					   + " GROUP BY A.CODIGO, A.ROL"
+					   //+ " GROUP BY A.CODIGO, A.ROL"
 					   + " ORDER BY A.CODIGO";
 		 
 		//System.out.println(querysb);
@@ -170,7 +170,7 @@ public class Autocomplete extends Bd {
 		String querysb = " SELECT A.CODIGO||' - '||A.INCAP" 
 				       + " FROM SHAINCAP A"
 					   + " WHERE A.CODIGO || A.INCAP LIKE '%" + query.toUpperCase() + "%'"
-					   + " GROUP BY A.CODIGO, A.INCAP"
+					   //+ " GROUP BY A.CODIGO, A.INCAP"
 					   + " ORDER BY A.CODIGO, A.INCAP";
 
 		//System.out.println(querysb);
@@ -202,7 +202,7 @@ public class Autocomplete extends Bd {
 		String querysb = " SELECT A.CODIGO||' - '||A.DESCR" 
 				       + " FROM SHATIPAC A"
 					   + " WHERE A.CODIGO || A.DESCR LIKE '%" + query.toUpperCase() + "%'"
-					   + " GROUP BY A.CODIGO, A.DESCR"
+					   //+ " GROUP BY A.CODIGO, A.DESCR"
 					   + " ORDER BY A.CODIGO, A.DESCR";
 
 		//System.out.println(querysb);
@@ -234,7 +234,7 @@ public class Autocomplete extends Bd {
 		String querysb = " SELECT A.CODIGO||' - '||A.DESCR" 
 				       + " FROM SHAINCREPORTADAS A"
 					   + " WHERE A.CODIGO || A.DESCR LIKE '%" + query.toUpperCase() + "%'"
-					   + " GROUP BY A.CODIGO, A.DESCR"
+					   //+ " GROUP BY A.CODIGO, A.DESCR"
 					   + " ORDER BY A.CODIGO, A.DESCR";
 
 		//System.out.println(querysb);
@@ -266,7 +266,7 @@ public class Autocomplete extends Bd {
 		String querysb = " SELECT A.CODIGO||' - '||A.TURNO" 
 				       + " FROM SHATURNOS A"
 					   + " WHERE A.CODIGO || A.TURNO LIKE '%" + query.toUpperCase() + "%'"
-					   + " GROUP BY A.CODIGO, A.TURNO"
+					   //+ " GROUP BY A.CODIGO, A.TURNO"
 					   + " ORDER BY A.CODIGO, A.TURNO";
 
 		//System.out.println(querysb);
@@ -299,7 +299,7 @@ public class Autocomplete extends Bd {
 				       + " FROM SHARAZON A"
 					   + " WHERE A.CODIGO || A.DESCR LIKE '%" + query.toUpperCase() + "%'"
 					   + " AND A.CODIGO != 0"
-					   + " GROUP BY A.CODIGO, A.DESCR"
+					   //+ " GROUP BY A.CODIGO, A.DESCR"
 					   + " ORDER BY A.CODIGO, A.DESCR";
 
 		//System.out.println(querysb);
@@ -331,7 +331,7 @@ public class Autocomplete extends Bd {
 		String querysb = " SELECT A.CODIGO||' - '||A.DESCR" 
 				       + " FROM SHASITUACION A"
 					   + " WHERE A.CODIGO || A.DESCR LIKE '%" + query.toUpperCase() + "%'"
-					   + " GROUP BY A.CODIGO, A.DESCR"
+					   //+ " GROUP BY A.CODIGO, A.DESCR"
 					   + " ORDER BY A.CODIGO, A.DESCR";
 
 		//System.out.println(querysb);
@@ -363,7 +363,7 @@ public class Autocomplete extends Bd {
 		String querysb = " SELECT A.CODIGO||' - '||A.DESCR" 
 				       + " FROM SHACUERPO A"
 					   + " WHERE A.CODIGO || A.DESCR LIKE '%" + query.toUpperCase() + "%'"
-					   + " GROUP BY A.CODIGO, A.DESCR"
+					   //+ " GROUP BY A.CODIGO, A.DESCR"
 					   + " ORDER BY A.CODIGO, A.DESCR";
 
 		//System.out.println(querysb);
@@ -395,7 +395,7 @@ public class Autocomplete extends Bd {
 		String querysb = " SELECT A.CODIGO||' - '||A.DESCR" 
 				       + " FROM SHALESION A"
 					   + " WHERE A.CODIGO || A.DESCR LIKE '%" + query.toUpperCase() + "%'"
-					   + " GROUP BY A.CODIGO, A.DESCR"
+					   //+ " GROUP BY A.CODIGO, A.DESCR"
 					   + " ORDER BY A.CODIGO, A.DESCR";
 
 		//System.out.println(querysb);
@@ -537,7 +537,7 @@ public class Autocomplete extends Bd {
 				String querysb = " SELECT A.CODSUC||' - '||A.DESSUC" 
 					       + " FROM SHASUCURSAL A"
 						   + " WHERE A.CODSUC||A.DESSUC LIKE '%" + query.toUpperCase() + "%'"
-						   + " GROUP BY A.CODSUC, A.DESSUC"
+						   //+ " GROUP BY A.CODSUC, A.DESSUC"
 						   + " ORDER BY TO_NUMBER(A.CODSUC)";
 
 				//System.out.println(querysb);
@@ -563,7 +563,7 @@ public class Autocomplete extends Bd {
 					       + " FROM SHASUCURSAL A, SHABVT002 B"
 		    		       + " WHERE A.CODSUC = B.SUCURSAL "
 						   + " AND A.CODSUC||A.DESSUC LIKE '%" + query.toUpperCase() + "%'"
-						   + " GROUP BY A.CODSUC, A.DESSUC"
+						   //+ " GROUP BY A.CODSUC, A.DESSUC"
 						   + " ORDER BY TO_NUMBER(A.CODSUC)";
 				
 				//System.out.println(querysb);

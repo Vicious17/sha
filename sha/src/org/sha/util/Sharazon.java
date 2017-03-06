@@ -372,7 +372,7 @@ public void guardar() throws NamingException, SQLException{
 	    query += " FROM SHARAZON A";
 	    query += " WHERE A.CODIGO || A.DESCR like '%" + ((String) filterValue).toUpperCase() + "%'";
 	    query += " AND A.CODIGO != 0";
-	    query += " GROUP BY A.CODIGO, A.DESCR";
+	    //query += " GROUP BY A.CODIGO, A.DESCR";
 	    query += ")query ) " ;
 	    query += " WHERE ROWNUM <="+pageSize;
 	    query += " AND rn > ("+ first +")";
