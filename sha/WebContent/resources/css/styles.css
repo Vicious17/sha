@@ -370,3 +370,10 @@ html, body {
 	.top-alignment {
 	     vertical-align: top;
 	}
+	
+	.calendarClass input {
+	margin-bottom:3px !important;
+   	margin-top:3px !important;
+	width: 200px !important;
+	height: 45px !important;
+}

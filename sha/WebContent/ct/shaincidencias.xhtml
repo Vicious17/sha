@@ -205,17 +205,17 @@
 			    <p:watermark for="cargo" value="#{msg.shaincidenciasca}" />
 			    <p:spacer height="1"/>
 			    <p:message for="cargo"/>	
-			    <p:calendar pattern="dd/MM/yyyy HH:mm" styleClass="spacing" id="fevento" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" locale="es" navigator="true" maxlength="20" value="#{shaincidencias.fevento}" showOn="button"/>
+			    <p:calendar pattern="dd/MM/yyyy HH:mm" styleClass="calendarClass" id="fevento" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}" locale="es" navigator="true" maxlength="20" value="#{shaincidencias.fevento}" showOn="button"/>
 	            <p:tooltip for="fevento" value="#{msg.shaincidenciasfe}" />
 	            <p:spacer height="1"/> 
 	            <p:message for="fevento"/>
-	            <p:autoComplete id="situacion" styleClass="spacing2" value="#{shaincidencias.situacion}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeSituacion}"  valueChangeListener="#{bd.setSituacion(shaincidencias.situacion)}" dropdown="true" scrollHeight="250">
+	            <p:autoComplete id="situacion" styleClass="spacing" value="#{shaincidencias.situacion}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeSituacion}"  valueChangeListener="#{bd.setSituacion(shaincidencias.situacion)}" dropdown="true" scrollHeight="250">
 			    <p:ajax event="itemSelect" update="tbResult" listener="#{bd.setSituacion(shaincidencias.situacion)}" />	     
 				</p:autoComplete> 
 				<p:watermark for="situacion" value="#{msg.shametassitu}"  />
 				<p:spacer height="1"/> 
 				<p:message for="situacion"/>  
-	            <p:autoComplete id="turno" styleClass="spacing2" value="#{shaincidencias.turno}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeTurno}"  valueChangeListener="#{bd.setTurno(shaincidencias.turno)}" dropdown="true" scrollHeight="250">
+	            <p:autoComplete id="turno" styleClass="spacing" value="#{shaincidencias.turno}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeTurno}"  valueChangeListener="#{bd.setTurno(shaincidencias.turno)}" dropdown="true" scrollHeight="250">
 			    <p:ajax event="itemSelect" update="tbResult" listener="#{bd.setTurno(shaincidencias.turno)}" />	     
 				</p:autoComplete> 
 				<p:watermark for="turno" value="#{msg.shaincidenciastu}"  />
@@ -223,7 +223,7 @@
 				<p:message for="turno"/>  
 	    </div>
 		 <div class="col-lg-3 col-md-2 col-sm-2">     			
-				<p:autoComplete id="centop" styleClass="spacing2" value="#{shaincidencias.centop}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeCentop}"  valueChangeListener="#{bd.setCentop(shaincidencias.centop)}" dropdown="true" scrollHeight="250">
+				<p:autoComplete id="centop" styleClass="spacing" value="#{shaincidencias.centop}" required="true" requiredMessage="#{bd.getMessage('htmlvalidate')}"  emptyMessage="#{msg.html138}"  completeMethod="#{autocomplete.completeCentop}"  valueChangeListener="#{bd.setCentop(shaincidencias.centop)}" dropdown="true" scrollHeight="250">
 			    <p:ajax event="itemSelect" update="tbResult" listener="#{bd.setCentop(shaincidencias.centop)}" />	     
 				</p:autoComplete> 
 				<p:watermark for="centop" value="#{msg.shaincidenciasco}"  />
@@ -308,7 +308,7 @@
             <f:facet  name="header">
             <p:commandLink onclick="fm_check('toDelete',true)"><i class="fa fa-trash fa-2x btn-warning" title="#{msg.borrar}"></i></p:commandLink>
             </f:facet>            
-            <input type="checkbox" name="toDelete" class="chk" value="#{tb.zregist}"/>
+            <center><input type="checkbox" name="toDelete" class="chk" value="#{tb.zregist}"/></center>
             </p:column>  
             
 			<p:column sortBy="#{tb.zCI}" styleClass="wrap" style="width:150px;">  
@@ -350,8 +350,8 @@
             
             <p:column width="60" >  
             <f:facet name="header">#{msg.bvt001TbEnviar}</f:facet>   
-             <p:commandLink styleClass="edit" onclick="enviar('#{tb.zci}','#{tb.zuno}','#{tb.zdos}','#{tb.ztres}','#{tb.zfevento}','#{tb.zdescsituacion}','#{tb.zdescturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zdesccuerpo}','#{tb.zhechos}','#{tb.zdescreportado}','#{tb.zinpsasel}','#{tb.zdescrazon}','#{tb.zregist}','1'); PF('panelwv').toggle();" 
-            title="Enviar"><i class="fa fa-pencil-square-o fa-2x text-info"></i></p:commandLink>
+            <center><p:commandLink styleClass="edit" onclick="enviar('#{tb.zci}','#{tb.zuno}','#{tb.zdos}','#{tb.ztres}','#{tb.zfevento}','#{tb.zdescsituacion}','#{tb.zdescturno}','#{tb.zcendessuc}','#{tb.zarea}','#{tb.ztipoin}','#{tb.ztipoac}','#{tb.zdesctipole}','#{tb.zdesccuerpo}','#{tb.zhechos}','#{tb.zdescreportado}','#{tb.zinpsasel}','#{tb.zdescrazon}','#{tb.zregist}','1'); PF('panelwv').toggle();" 
+            title="Enviar"><i class="fa fa-pencil-square-o fa-2x text-info"></i></p:commandLink></center>
             </p:column> 
 			
 

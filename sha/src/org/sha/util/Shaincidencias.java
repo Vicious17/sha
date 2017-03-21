@@ -1150,7 +1150,7 @@ public void update() throws  NamingException {
 	    query += " AND A.TURNO = J.CODIGO";
 	    query += " AND A.UBILES = K.CODIGO";
 	    query += " AND A.SITUACION = L.CODIGO";
-	    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||D.CODSUC||D.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR||A.REPORTADO||G.DESCR||A.RAZON||H.DESCR||I.DESCR||J.TURNO||K.DESCR||A.SITUACION||L.DESCR like '%" + ((String) filterValue).toUpperCase() + "%'";
+	    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI')||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||D.CODSUC||D.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR||A.REPORTADO||G.DESCR||A.RAZON||H.DESCR||I.DESCR||J.TURNO||K.DESCR||A.SITUACION||L.DESCR like '%" + ((String) filterValue).toUpperCase() + "%'";
 	    query += " AND A.CI LIKE '" + ci.toUpperCase() + "%'";
 	    query += " AND A.TIPOINCAP LIKE '" + vecincap[0] + "%'";
 	    query += " AND A.TIPOACC LIKE '" + vectipoac[0] + "%'";
@@ -1237,7 +1237,7 @@ public void update() throws  NamingException {
 		    query += " AND A.SITUACION = L.CODIGO";
 			query += " AND E.SUCURSAL = TO_CHAR(F.CODSUC)";
 		    query += " AND A.CI = D.TIPDOC||' - '||D.CEDULA";
-		    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||A.FECHA||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||F.CODSUC||F.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR||A.REPORTADO||G.DESCR||A.RAZON||H.DESCR||I.DESCR||J.TURNO||K.DESCR||A.SITUACION||L.DESCR like '%" + ((String) filterValue).toUpperCase() + "%'";
+		    query += " AND A.CI||A.NOMBRE||A.GENERO||A.CARGO||TO_CHAR(A.FECHA,'DD/MM/YYYY HH24:MI')||A.TURNO||A.AREAEVENT||A.TIPOINCAP||A.TIPOACC||A.TIPOLES||A.UBILES||A.DESCHEC||A.INPSASEL||B.INCAP||C.DESCR||D.DESCIA||D.DESNOM||F.CODSUC||F.DESSUC||D.CODDEP||D.DESDEP||D.DESCAR||A.REPORTADO||G.DESCR||A.RAZON||H.DESCR||I.DESCR||J.TURNO||K.DESCR||A.SITUACION||L.DESCR like '%" + ((String) filterValue).toUpperCase() + "%'";
 		    query += " AND A.CI LIKE '" + ci.toUpperCase() + "%'";
 		    query += " AND A.TIPOINCAP LIKE '" + vecincap[0] + "%'";
 		    query += " AND A.TIPOACC LIKE '" + vectipoac[0] + "%'";
